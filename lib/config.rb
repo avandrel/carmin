@@ -1,8 +1,8 @@
 module DiTrello
 	class Config
 		def self.get_config_hash
-			config_hash =[]
-			if File.exist?('config.yml')
+			config_hash = {}
+			if ENV['RACK_ENV'] != 'production'
 				config_hash = YAML.load(File.read("config.yml"))
 			else
 				config_hash = self.get_config_from_env
@@ -13,7 +13,7 @@ module DiTrello
 		private
 
 		def self.get_config_from_env
-			config_hash = []
+			config_hash = {}
 
 			config_hash['trello_developer_public_key'] = ENV['TRELLO_DPK']
 			config_hash['trello_member_token'] = ENV['TRELLO_MT']
