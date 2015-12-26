@@ -1,6 +1,7 @@
 # encoding UTF-8
 
 require 'trello'
+require 'slack-notifier'
 
 module DiTrello
 	class SlackTrello
@@ -32,10 +33,17 @@ module DiTrello
             	:name => message
           		})
           		card.save
+          		notify()
           		return create_ok_message(user_name)
           	else
           		return create_already_exists_message(user_name)
         	end
+		end
+
+		def notify()
+			notifier = Slack::Notifier.new @config_hash["slack_wywiad_incoming_hooks"]
+			message = "New Inbox message! => <#{@config_hash["trello_board_url"]}|Visit Trello board>"
+			notifier.ping message
 		end
 
 		def create_ok_message(user)
