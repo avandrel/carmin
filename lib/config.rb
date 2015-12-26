@@ -26,7 +26,8 @@ module DiTrello
 			config_hash['discourse_api_username'] = ENV['DISCOURSE_AU']
 
 			config_hash['slack_wywiad_incoming_hooks'] = ENV['SLACK_WIH']
-
+			config_hash['slack_wywiad_outgoing_token'] = ENV['SLACK_WOT']
+			
 			config_hash
 		end
 	end

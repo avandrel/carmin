@@ -44,14 +44,9 @@ module DiTrello
     end
 
     post "/create" do
-      conc_params = ''
-      params.each do |key,value|
-        if value.is_a? String
-          conc_params = "#{conc_params}; #{key}: #{value}"
-        end
-      end
+      slack_trello = DiTrello::SlackTello.new
 
-      { "text" => conc_params }.to_json
+      slack_trello.respond
     end
   end
 end
