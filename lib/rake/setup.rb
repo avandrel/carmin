@@ -4,8 +4,7 @@ require 'yaml'
 module DiTrello
 	class Setup
 		def initialize
-		    config_hash = YAML.load(File.read("config.yml")) 
-		    puts hash.inspect
+		    config_hash = DiTrello::Config.new
 
 		    Trello.configure do |config|
 		        config.developer_public_key = config_hash["trello_developer_public_key"]
