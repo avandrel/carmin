@@ -14,7 +14,6 @@ module DiTrello
     end
 
     get "/" do 
-      puts @config_hash
       Trello.configure do |config|
         config.developer_public_key = @config_hash['trello_developer_public_key']
         config.member_token = @config_hash['trello_member_token']
