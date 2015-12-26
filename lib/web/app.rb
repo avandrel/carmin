@@ -42,5 +42,16 @@ module DiTrello
       end
       "ok"
     end
+
+    post "/create" do
+      conc_params = ''
+      params.each do |key,value|
+        if value.is_a? String
+          conc_params = "#{conc_params}; #{key}: #{value}"
+        end
+      end
+
+      { "text" => conc_params }.to_json
+    end
   end
 end
