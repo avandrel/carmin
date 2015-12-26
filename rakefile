@@ -1,0 +1,19 @@
+require 'bundler'
+
+
+Dir["./lib/**/*.rb"].each { |file| require file }
+Dir["**/*.rake"].each {|ext| load ext}
+
+namespace :setup do
+  desc 'Setup trello dashboard'
+  task :setup_dashboard do
+  	DiTrello::Setup.new
+  end
+end
+
+namespace :run do
+  desc 'Check discourse make tickets on trello'
+  task :run do
+  	DiTrello::Run.new
+  end
+end
