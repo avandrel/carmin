@@ -1,6 +1,7 @@
 require 'bundler'
 
 Dir["./lib/*.rb"].each { |file| require file }
+Dir["./lib/helpers/*.rb"].each { |file| require file }
 Dir["./lib/rake/*.rb"].each { |file| require file }
 Dir["**/*.rake"].each {|ext| load ext}
 

@@ -15,9 +15,12 @@ module DiTrello
 		    end
 
 		    board = Trello::Board.find(@config_hash["trello_board_id"])
+		    puts board
 	        inbox_list =  board.lists.first { |list| list.name = "Inbox"}
+	        puts inbox_list
       
-		    client = DiscourseApi::Client.new(@config_hash["discourse_url"])
+=begin
+			client = DiscourseApi::Client.new(@config_hash["discourse_url"])
       		client.api_key = @config_hash["discourse_api_key"]
       		client.api_username = @config_hash["discourse_api_username"]
 
@@ -30,6 +33,8 @@ module DiTrello
       		if notify_counter > 0
       			notify(notify_counter)
       		end
+=end
+
 		end
 
 		def create_card(list, message)
