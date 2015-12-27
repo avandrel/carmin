@@ -32,9 +32,9 @@ module DiTrello
 		private 
 
 		def read_with_groups
-			input_array = @raw_input.scan(/do \[(.*)\]: (.*)/)[0]
+			input_array = @raw_input.scan(/do \[(.*)\] (.*)/)[0]
 			if input_array.blank? || input_array.length != 2
-				@error_message = "*Błędny fomat zgłoszenia!*"
+				@error_message = "Błędny fomat zgłoszenia!"
 				return
 			end
 			input_array[0].split(',').map { |group| @groups << group.strip}

@@ -4,7 +4,7 @@ require 'yaml'
 module DiTrello
 	class Setup
 		def initialize
-		    config_hash = DiTrello::Config.new
+		    config_hash = DiTrello::Config.get_config_hash
 
 		    Trello.configure do |config|
 		        config.developer_public_key = config_hash["trello_developer_public_key"]
@@ -13,10 +13,18 @@ module DiTrello
 
 		    board = Trello::Board.find(config_hash["trello_board_id"])
 
+		    clear_lists(board.lists)
+
 		  	create_list(board, "Inbox")
 		  	create_list(board, "RO")
 		  	create_list(board, "ZO")
-		  	create_list(board, "Grupy")
+		  	create_list(board, "GEdukacja")
+		end
+
+		def clear_lists(lists)
+			lists.each do |list|
+				list.close!
+			end
 		end
 
 		def create_list(board, list_name)

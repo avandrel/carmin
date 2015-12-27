@@ -23,6 +23,12 @@ module DiTrello
 			end
 		end
 
+		def create_group_card(group, message)
+			if is_unique?(group, message)
+				create_card(group, message)
+			end
+		end
+
 		def error_message
 			@error_message
 		end
