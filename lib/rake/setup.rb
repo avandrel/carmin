@@ -15,15 +15,16 @@ module DiTrello
 
 		    clear_lists(board.lists)
 
-		  	create_list(board, "Inbox")
-		  	create_list(board, "RO")
-		  	create_list(board, "ZO")
 		  	create_list(board, "GEdukacja")
+		  	create_list(board, "ZO")
+		  	create_list(board, "RO")
+		  	create_list(board, "Inbox")
 		end
 
 		def clear_lists(lists)
 			lists.each do |list|
 				list.close!
+				puts list.methods
 			end
 		end
 

@@ -19,7 +19,7 @@ module DiTrello
 		    	if list.name != "Inbox" && list.cards.size > 0
 		    		message_array = []
 		    		list.cards.map { |card| message_array << card.name }
-		    		DiTrello::EmailHelper.send_email(@config_hash, "msbrokos@gazeta.pl", list.name, message_array.join("\n"))
+		    		DiTrello::EmailHelper.send_email(@config_hash, "avandrel@mgpm.pl", list.name, message_array.join("\n"))
 		    		list.cards.each { |card| card.delete }
 		    	end
 		    end

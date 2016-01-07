@@ -15,6 +15,7 @@ module DiTrello
 			else
 				@link = @raw_input
 			end
+			validate
 		end
 
 		def link
@@ -39,6 +40,17 @@ module DiTrello
 			end
 			input_array[0].split(',').map { |group| @groups << group.strip}
 			@link = input_array[1]
+		end
+
+		def validate()
+		    valid = begin
+		      URI.parse(@link).kind_of?(URI::HTTP)
+		    rescue URI::InvalidURIError
+		      false
+		    end
+		    unless valid
+		      @error_message = "Błędny format url'a"
+		    end
 		end
 	end
 end
