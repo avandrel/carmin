@@ -23,7 +23,7 @@ module DiTrello
 		end
 
 		def message_to_response(message)
-			{ "text" => message }.to_json
+			{ "response_type" => "ephemeral","text" => message }.to_json
 		end
 	end
 end
