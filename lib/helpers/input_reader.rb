@@ -2,15 +2,13 @@
 
 module DiTrello
 	class InputReader
-		def initialize(raw_input)
-			@link = raw_input
-			@groups = []
+		def initialize()
 			@link = ''
 			@error_message = ''
 		end
 
-		def read
-			validate
+		def read(raw_input)
+			validate(sanitize(raw_input))
 		end
 
 		def link
@@ -38,15 +36,20 @@ module DiTrello
 			@link = input_array[1]
 		end
 =end
+		def sanitize(raw_input)
+			raw_input.gsub(/\A"|"\Z/, '')
+		end
 
-		def validate()
+		def validate(raw_input)
 		    valid = begin
-		      URI.parse(@link).kind_of?(URI::HTTP)
+		      URI.parse(raw_input).kind_of?(URI::HTTP)
 		    rescue URI::InvalidURIError
 		      false
 		    end
-		    unless valid
-		      @error_message = "Błędny format url'a"
+		    if valid
+		    	@link = raw_input
+		    else
+		    	@error_message = "Błędny format url'a"
 		    end
 		end
 	end

@@ -16,8 +16,8 @@ module DiTrello
 				#return get_message('Błędny token!')
 			end
 
-			input_reader = DiTrello::InputReader.new params['text']
-			input_reader.read()
+			input_reader = DiTrello::InputReader.new
+			input_reader.read(params['text'])
 
 			if !input_reader.error_message.empty?
 				return @message_helper.return_error_message(params['user_name'], input_reader.error_message)

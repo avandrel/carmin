@@ -36,6 +36,7 @@ module DiTrello
     end
 
     post "/create" do
+      puts params
       slack_trello = DiTrello::SlackTrello.new @config_hash
       slack_trello.respond(params)
     end
