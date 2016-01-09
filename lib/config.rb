@@ -28,6 +28,12 @@ module DiTrello
 			config_hash['slack_wywiad_incoming_hooks'] = ENV['SLACK_WIH']
 			config_hash['slack_wywiad_outgoing_token'] = ENV['SLACK_WOT']
 			
+			config_hash['ff_plugin_token'] = ENV['FF_PT']
+			config_hash['chrome_plugin_token'] = ENV['CHROME_PT']
+
+			config_hash['mongo_user'] = ENV['MONGO_U']
+			config_hash['mongo_password'] = ENV['MONGO_P']
+
 			config_hash
 		end
 	end

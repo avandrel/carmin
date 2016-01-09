@@ -7,38 +7,39 @@ module DiTrello
 		def initialize(config_hash)
 			@config_hash = config_hash
 			@message_helper = DiTrello::MessageHelper.new @config_hash['slack_wywiad_incoming_hooks'], @config_hash['trello_board_url']
-			@card_helper = DiTrello::CardHelper.new @config_hash
+			@return_message = ''
 		end
 
 		def respond(params)
-			puts params.to_json
-			if !validate_token(params['token'])
-				#return get_message('Błędny token!')
+			token_helper = DiTrello::TokenHelper.new @config_hash
+			if !token_helper.try_set_channel(params)
+				return @message_helper.return_error_message(params['user_name'], token_helper.error_message)
 			end
 
 			input_reader = DiTrello::InputReader.new
-			input_reader.read(params['text'])
-
-			if !input_reader.error_message.empty?
+			if !input_reader.try_read(params)
 				return @message_helper.return_error_message(params['user_name'], input_reader.error_message)
 			end
 
-			@card_helper.create_inbox_card(input_reader.link)
-			if !@card_helper.error_message.empty?
-				return @message_helper.return_error_message(params['user_name'], @card_helper.error_message)
+			mongo_helper = DiTrello::MongoHelper.new @config_hash
+			card_repository = DiTrello::CardRepository.new mongo_helper
+			card_creator = DiTrello::CardCreator.new(@config_hash, card_repository)
+			if card_creator.try_create_inbox_card(params)
+				@return_message = @message_helper.return_ok_message(params['user_name'])
 			else
-				return @message_helper.return_ok_message(params['user_name'])
+				return @message_helper.return_error_message(params['user_name'], card_creator.error_message)
 			end
+
 
 =begin
 			if !input_reader.groups.blank?
 				input_reader.groups.each do |group|
-					@card_helper.create_group_card(group, input_reader.link)
+					@card_creator.create_group_card(group, input_reader.link)
 				end
 				return @message_helper.return_ok_message(params['user_name'])
 			end
 =end
-
+			@return_message
 		end
 
 		private

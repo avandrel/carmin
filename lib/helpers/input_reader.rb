@@ -5,18 +5,17 @@ module DiTrello
 		def initialize()
 			@link = ''
 			@error_message = ''
+			@uri = nil
 		end
 
-		def read(raw_input)
-			validate(sanitize(raw_input))
-		end
-
-		def link
-			@link
-		end
-
-		def groups
-			@groups
+		def try_read(params)
+			validate(sanitize(params['text']))
+			if @uri != nil
+				params['link'] = @uri.to_s
+				params['source'] = @uri.host
+				return true
+			end
+			false
 		end
 
 		def error_message
@@ -41,15 +40,10 @@ module DiTrello
 		end
 
 		def validate(raw_input)
-		    valid = begin
-		      URI.parse(raw_input).kind_of?(URI::HTTP)
+		    begin
+		      @uri = URI.parse(raw_input)
 		    rescue URI::InvalidURIError
-		      false
-		    end
-		    if valid
-		    	@link = raw_input
-		    else
-		    	@error_message = "Błędny format url'a"
+		      @error_message = "Błędny format url'a"
 		    end
 		end
 	end
