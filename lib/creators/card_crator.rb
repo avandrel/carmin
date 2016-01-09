@@ -21,6 +21,7 @@ module DiTrello
 			if is_unique?(params['link'])
 				desc = DiTrello::DescHelper.create_desc(params)
 				create_card(INBOX_LIST_NAME, params['link'], desc)
+				add_checklist()
 				@card_repository.add_card(@card)
 				return true
 			else
@@ -61,8 +62,18 @@ module DiTrello
             	:name => message,
             	:desc => desc_json
           		})
-       		puts @card.to_json
        		@card.save
+		end
+
+		def add_checklist
+			checklist = Trello::Checklist.create({
+				:name => "Postęp",
+				:card_id => @card.id,
+				:board_id => @card.board_id,
+				:list_id => @card.list_id
+				})
+			checklist.add_item("DONE")
+			checklist.save
 		end
 	end
 end
