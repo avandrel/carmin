@@ -22,6 +22,7 @@ module DiTrello
 				desc = DiTrello::DescHelper.create_desc(params)
 				create_card(INBOX_LIST_NAME, params['link'], desc)
 				add_checklist()
+				add_attachment()
 				@card_repository.add_card(@card)
 				return true
 			else
@@ -74,6 +75,10 @@ module DiTrello
 				})
 			checklist.add_item("DONE")
 			checklist.save
+		end
+
+		def add_attachment
+			@card.add_attachment(@card.name)
 		end
 	end
 end
