@@ -1,10 +1,10 @@
 require 'trello'
 require 'yaml'
 
-module DiTrello
+module Carmin
 	class Setup
 		def initialize
-		    config_hash = DiTrello::Config.get_config_hash
+		    config_hash = Carmin::Config.get_config_hash
 
 		    Trello.configure do |config|
 		        config.developer_public_key = config_hash["trello_developer_public_key"]

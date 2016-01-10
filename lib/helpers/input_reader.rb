@@ -1,6 +1,6 @@
 # encoding UTF-8
 
-module DiTrello
+module Carmin
 	class InputReader
 		def initialize()
 			@link = ''

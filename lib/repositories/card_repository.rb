@@ -1,6 +1,6 @@
 require 'mongo'
 
-module DiTrello
+module Carmin
 	class CardRepository
 		def initialize(mongo_helper)
 			@mongo_helper = mongo_helper

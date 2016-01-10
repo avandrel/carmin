@@ -1,6 +1,5 @@
 module Carmin
-	class GroupHelper
-		
+	class HealthCheck
 
 	end
 end

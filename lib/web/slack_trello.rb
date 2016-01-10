@@ -2,28 +2,28 @@
 
 require 'slack-notifier'
 
-module DiTrello
+module Carmin
 	class SlackTrello
 		def initialize(config_hash)
 			@config_hash = config_hash
-			@message_helper = DiTrello::MessageHelper.new @config_hash['slack_wywiad_incoming_hooks'], @config_hash['trello_board_url']
+			@message_helper = Carmin::MessageHelper.new @config_hash['slack_wywiad_incoming_hooks'], @config_hash['trello_board_url']
 			@return_message = ''
 		end
 
 		def respond(params)
-			token_helper = DiTrello::TokenHelper.new @config_hash
+			token_helper = Carmin::TokenHelper.new @config_hash
 			if !token_helper.try_set_channel(params)
 				return @message_helper.return_error_message(params['user_name'], token_helper.error_message)
 			end
 
-			input_reader = DiTrello::InputReader.new
+			input_reader = Carmin::InputReader.new
 			if !input_reader.try_read(params)
 				return @message_helper.return_error_message(params['user_name'], input_reader.error_message)
 			end
 
-			mongo_helper = DiTrello::MongoHelper.new @config_hash
-			card_repository = DiTrello::CardRepository.new mongo_helper
-			card_creator = DiTrello::CardCreator.new(@config_hash, card_repository)
+			mongo_helper = Carmin::MongoHelper.new @config_hash
+			card_repository = Carmin::CardRepository.new mongo_helper
+			card_creator = Carmin::CardCreator.new(@config_hash, card_repository)
 			if card_creator.try_create_inbox_card(params)
 				@return_message = @message_helper.return_ok_message(params['user_name'])
 			else

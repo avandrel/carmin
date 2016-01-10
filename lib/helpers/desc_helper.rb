@@ -1,4 +1,4 @@
-module DiTrello
+module Carmin
 	class DescHelper
 		def self.create_desc(params)
 			desc = {}

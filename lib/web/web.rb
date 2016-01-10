@@ -2,16 +2,19 @@ require 'sinatra/base'
 require 'sinatra/config_file'
 require 'discourse_api'
 
-module DiTrello
+module Carmin
   class Web < Sinatra::Base
     register Sinatra::ConfigFile
 
     before do
         headers "Content-Type" => "application/json; charset=utf8"
-        @config_hash = DiTrello::Config.get_config_hash
+        @config_hash = Carmin::Config.get_config_hash
     end
 
-    get "/" do
+    get "/healthcheck" do
+      puts params
+      healthcheck = Carmin::HealthCheck.new @config_hash
+      healthcheck.check(params)
 =begin
       if ENV['RACK_ENV'] != 'production'
         client = DiscourseApi::Client.new(@config_hash['discourse_url'])
@@ -31,13 +34,11 @@ module DiTrello
         end
       end
 =end
-
-      "ok"
     end
 
     post "/create" do
       puts params
-      slack_trello = DiTrello::SlackTrello.new @config_hash
+      slack_trello = Carmin::SlackTrello.new @config_hash
       slack_trello.respond(params)
     end
   end

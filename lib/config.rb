@@ -1,4 +1,4 @@
-module DiTrello
+module Carmin
 	class Config
 		def self.get_config_hash
 			config_hash = {}
@@ -34,6 +34,8 @@ module DiTrello
 			config_hash['mongo_user'] = ENV['MONGO_U']
 			config_hash['mongo_password'] = ENV['MONGO_P']
 
+			config_hash['healthcheck_token'] = ENV['HEALTHCHECK_T']
+			
 			config_hash
 		end
 	end

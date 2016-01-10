@@ -1,4 +1,4 @@
-module DiTrello
+module Carmin
 	class MessageHelper
 		def initialize(incoming_hook, board_url)
 			@notifier = Slack::Notifier.new incoming_hook

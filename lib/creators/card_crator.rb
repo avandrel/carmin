@@ -2,7 +2,7 @@
 
 require 'trello'
 
-module DiTrello
+module Carmin
 	class CardCreator
 		INBOX_LIST_NAME = "Inbox"
 
@@ -19,7 +19,7 @@ module DiTrello
 
 		def try_create_inbox_card(params)
 			if is_unique?(params['link'])
-				desc = DiTrello::DescHelper.create_desc(params)
+				desc = Carmin::DescHelper.create_desc(params)
 				create_card(INBOX_LIST_NAME, params['link'], desc)
 				add_checklist()
 				add_attachment()

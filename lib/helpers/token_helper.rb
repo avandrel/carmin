@@ -1,4 +1,4 @@
-module DiTrello
+module Carmin
 	class TokenHelper
 		def initialize(config_hash)
 			@config_hash = config_hash

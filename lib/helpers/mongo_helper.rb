@@ -1,4 +1,4 @@
-module DiTrello
+module Carmin
     class MongoHelper
         def initialize(config_hash)
             @connect = create_connection(config_hash['mongo_user'], config_hash['mongo_password'])
