@@ -13,5 +13,9 @@ module Carmin
 		def add_card(card)
         	@mongo_helper.cards_collection.insert_one(card.attributes)
         end
+
+        def update_card(card)
+        	@mongo_helper.cards_collection.update_one({:name => "#{card.name}"}, card.attributes)
+        end
 	end
 end

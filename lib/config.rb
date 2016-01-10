@@ -35,7 +35,27 @@ module Carmin
 			config_hash['mongo_password'] = ENV['MONGO_P']
 
 			config_hash['healthcheck_token'] = ENV['HEALTHCHECK_T']
+			config_hash['dispatch_token'] = ENV['DISPATCH_T']
 			
+			config_hash['emails'] = []
+			config_hash['emails']['finanseibudżet'] = ENV['finanseibudżet']
+			config_hash['emails']['kultura'] = ENV['kultura']
+			config_hash['emails']['lgbt'] = ENV['lgbt']
+			config_hash['emails']['naukaiszkolnictwowyższe'] = ENV['naukaiszkolnictwowyższe']
+			config_hash['emails']['obszarywiejskieirolnictwo'] = ENV['obszarywiejskieirolnictwo']
+			config_hash['emails']['ochronaprawzwięrząt'] = ENV['ochronaprawzwięrząt']
+			config_hash['emails']['ochronaprzyrody'] = ENV['ochronaprzyrody']
+			config_hash['emails']['oświataiedukacja'] = ENV['oświataiedukacja']
+			config_hash['emails']['politykamieszkaniowa'] = ENV['politykamieszkaniowa']
+			config_hash['emails']['politykaprzestrzenna'] = ENV['politykaprzestrzenna']
+			config_hash['emails']['politykaspołeczna'] = ENV['politykaspołeczna']
+			config_hash['emails']['politykazagraniczna'] = ENV['politykazagraniczna']
+			config_hash['emails']['prawakobiet'] = ENV['prawakobiet']
+			config_hash['emails']['razemwmediach'] = ENV['razemwmediach']
+			config_hash['emails']['świeckiepaństwo'] = ENV['świeckiepaństwo']
+			config_hash['emails']['ustrójpaństwaisamorząd'] = ENV['ustrójpaństwaisamorząd']
+			config_hash['emails']['zdrowie'] = ENV['zdrowie']
+
 			config_hash
 		end
 	end

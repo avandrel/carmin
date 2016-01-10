@@ -8,9 +8,14 @@ Dir["./lib/rake/*.rb"].each { |file| require file }
 Dir["**/*.rake"].each {|ext| load ext}
 
 namespace :setup do
+  desc 'Clear and setup trello dashboard'
+  task :setup_and_clear do
+  	Carmin::Setup.new true
+  end
+
   desc 'Setup trello dashboard'
-  task :setup_dashboard do
-  	Carmin::Setup.new
+  task :setup do
+  	Carmin::Setup.new false
   end
 end
 

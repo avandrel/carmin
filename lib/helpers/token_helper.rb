@@ -28,9 +28,17 @@ module Carmin
 						params['channel'] = "chrome_plugin" 
 						return true
 					end
+				when @config_hash['healthcheck_token'] then 
+					begin
+						return true
+					end
+				when @config_hash['dispatch_token'] then 
+					begin
+						return true
+					end
 			end
 
-			@error_message = 'Nieprawidłowy kanał zgłoszenia!'
+			@error_message = 'Nieprawidłowy token!'
 			return false
 		end
 	end

@@ -12,9 +12,14 @@ module Carmin
     end
 
     get "/healthcheck" do
-      puts params
       healthcheck = Carmin::HealthCheck.new @config_hash
       healthcheck.check(params)
+    end
+
+    get "/dispatch" do 
+      dispatcher = Carmin::Dispatcher.new @config_hash
+      dispatcher.dispatch(params)
+    end
 =begin
       if ENV['RACK_ENV'] != 'production'
         client = DiscourseApi::Client.new(@config_hash['discourse_url'])
@@ -34,10 +39,9 @@ module Carmin
         end
       end
 =end
-    end
+
 
     post "/create" do
-      puts params
       slack_trello = Carmin::SlackTrello.new @config_hash
       slack_trello.respond(params)
     end
