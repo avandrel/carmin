@@ -3,6 +3,7 @@ require 'net/smtp'
 module Carmin
 	class EmailHelper
 		def self.send_email(config_hash, group_name, message)
+			puts config_hash.inspect
 			recipient = config_hash['emails'][create_recipient_name(group_name)]
 			email = create_message(recipient, group_name, message)
 
@@ -21,7 +22,7 @@ module Carmin
 		end
 
 		def self.create_recipient_name(group_name)
-			group_name.downcase.gsub(" ", "")
+			group_name.downcase.gsub(" ", "").gsub(/[^a-zA-Z0-9\-]/,"")
 		end
 	end
 end
