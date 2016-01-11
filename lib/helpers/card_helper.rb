@@ -32,6 +32,10 @@ module Carmin
 			closed_cards_per_group
 		end
 
+		def get_cards_from_trash(trash_group_name)
+			@wywiad_board.lists.select { |list| list.name == trash_group_name }.first.cards
+		end
+
 		private
 
 		def out_of_date_cards(hours)
@@ -47,8 +51,6 @@ module Carmin
 		end
 
 		def is_card_closed?(card)
-			has_label?("red", card.labels) && 
-			has_label?("orange", card.labels) && 
 			has_label?("green", card.labels) &&
 			card.badges['checkItems'] == card.badges['checkItemsChecked']
 		end

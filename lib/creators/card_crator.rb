@@ -24,7 +24,7 @@ module Carmin
 				page.title = params['link']
 			end
 
-			if is_unique?(page.title)				
+			if is_unique?(params['link'])				
 				desc = Carmin::DescHelper.create_desc(params)
 				create_card(INBOX_LIST_NAME, page.title, desc)
 				add_checklist()
@@ -55,8 +55,8 @@ module Carmin
 
 		private
 
-		def is_unique?(message)
-			!@card_repository.card_in_repo?(message)
+		def is_unique?(url)
+			!@card_repository.card_in_repo?(url)
 		end
 
 		def get_list_by_name(list_name)
