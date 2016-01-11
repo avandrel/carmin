@@ -84,10 +84,10 @@ module Carmin
 		end
 
 		def add_attachments(images, url)
-			@card.add_attachment(url)
 			if !images.empty?
 				@card.add_attachment(images.first.to_s)
 			end
+			@card.add_attachment(url)
 		end
 	end
 end

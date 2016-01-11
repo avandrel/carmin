@@ -13,3 +13,5 @@ gem 'discourse_api'
 gem 'slack-notifier'
 
 gem 'link_thumbnailer'
+
+gem 'mail'

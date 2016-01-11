@@ -47,6 +47,8 @@ GEM
       nokogiri (~> 1.6)
       rake (>= 0.9)
       video_info (~> 2.4)
+    mail (2.6.3)
+      mime-types (>= 1.16, < 3)
     mime-types (2.99)
     mini_portile2 (2.0.0)
     minitest (5.8.3)
@@ -117,6 +119,7 @@ PLATFORMS
 DEPENDENCIES
   discourse_api
   link_thumbnailer
+  mail
   mongo
   rack
   rake

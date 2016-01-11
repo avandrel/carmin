@@ -22,15 +22,16 @@ module Carmin
 			mongo_helper = Carmin::MongoHelper.new @config_hash
 			card_repository = Carmin::CardRepository.new mongo_helper
 
+			cards_txt_collection = {}
 			closed_cards_per_list.each do |list_name, cards|
 				cards.each do |card|
 					update_desc(card, list_name)
 					set_defaults(card)
+					range = Carmin::EmailHelper.get_label_value(card, "green")
+					(cards_txt_collection[range] ||= []) << Carmin::EmailHelper.create_card_txt(card)
 				end
 
-				if list_name != KOSZ_LIST_NAME
-					Carmin::EmailHelper.send_email(@config_hash, list_name, cards.map { |card| card.name }.join("\n"))
-				end
+				Carmin::EmailHelper.send_email(@config_hash, list_name, cards_txt_collection)
 
 				cards.each do |card| 
 					card_repository.update_card(card)
@@ -48,18 +49,18 @@ module Carmin
 
 		def update_desc(card, list_name)
 			desc = JSON.parse(card.desc)
-			desc[:list_name] = list_name
-			card.desc = desc.to_s
+			desc['list_name'] = list_name
+			card.desc = desc
 		end
 
 		def set_defaults(card)
 			if !card.labels.any? { |label| label.color == "red" }
-				label = Trello::Label.create({:color => "red", :name => "pl", :board_id => card.board_id})
+				label = @card_helper.board_labels.select{ |label| label.color == "red" && label.name == "pl"}.first
 				card.add_label(label)
 			end
 
 			if !card.labels.any? { |label| label.color == "orange" }
-				label = Trello::Label.create({:color => "orange", :name => "tekst", :board_id => card.board_id})
+				label = @card_helper.board_labels.select{ |label| label.color == "orange" && label.name == "tekst"}.first
 				card.add_label(label)
 			end
 		end

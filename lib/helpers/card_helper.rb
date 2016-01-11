@@ -36,6 +36,10 @@ module Carmin
 			@wywiad_board.lists.select { |list| list.name == trash_group_name }.first.cards
 		end
 
+		def board_labels
+			@wywiad_board.labels
+		end
+		
 		private
 
 		def out_of_date_cards(hours)

@@ -47,7 +47,7 @@ module Carmin
 		end
 
 		def create_labels(board)
-			create_label(board, "miasto", "green")
+			create_label(board, "okręg wrocławski", "green")
 			create_label(board, "region", "green")
 			create_label(board, "kraj", "green")
 			create_label(board, "inny okręg", "green")
