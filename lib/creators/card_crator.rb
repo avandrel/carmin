@@ -1,6 +1,7 @@
 # encoding UTF-8
 
 require 'trello'
+require 'link_thumbnailer'
 
 module Carmin
 	class CardCreator
@@ -19,10 +20,11 @@ module Carmin
 
 		def try_create_inbox_card(params)
 			if is_unique?(params['link'])
+				page = LinkThumbnailer.generate(params['link'])
 				desc = Carmin::DescHelper.create_desc(params)
-				create_card(INBOX_LIST_NAME, params['link'], desc)
+				create_card(INBOX_LIST_NAME, page.title.blank? ? params['link'] : page.title, desc)
 				add_checklist()
-				add_attachment()
+				add_attachments(page.images, params['link'])
 				@card_repository.add_card(@card)
 				return true
 			else
@@ -77,8 +79,11 @@ module Carmin
 			checklist.save
 		end
 
-		def add_attachment
-			@card.add_attachment(@card.name)
+		def add_attachments(images, url)
+			@card.add_attachment(url)
+			if !images.empty?
+				@card.add_attachment(images.first.to_s)
+			end
 		end
 	end
 end

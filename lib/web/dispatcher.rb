@@ -23,9 +23,12 @@ module Carmin
 			card_repository = Carmin::CardRepository.new mongo_helper
 
 			closed_cards_per_list.each do |list_name, cards|
-				Carmin::EmailHelper.send_email(@config_hash, list_name, cards.map { |card| card.name }.join("\n"))
+				if list_name.name != KOSZ_LIST_NAME
+					Carmin::EmailHelper.send_email(@config_hash, list_name, cards.map { |card| card.name }.join("\n"))
+				end
 				cards.each do |card| 
 					update_desc(card, list_name)
+					set_defaults(card_labels)
 					card_repository.update_card(card)
 					card.delete
 				end
@@ -43,6 +46,18 @@ module Carmin
 			desc = JSON.parse(card.desc)
 			desc[:list_name] = list_name
 			card.desc = desc.to_s
+		end
+
+		def set_defaults(card)
+			if !card.card_labels.any? { |label| label.color == "red" }
+				label = Trello::Label.create({:color => "red", :name => "pl", :board_id => card.board_id})
+				card.add(label)
+			end
+
+			if !card.card_labels.any? { |label| label.color == "orange" }
+				label = Trello::Label.create({:color => "orange", :name => "tekst", :board_id => card.board_id})
+				card.add(label)
+			end
 		end
 	end
 end

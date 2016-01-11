@@ -11,3 +11,5 @@ gem 'mongo'
 gem 'ruby-trello'
 gem 'discourse_api'
 gem 'slack-notifier'
+
+gem 'link_thumbnailer'
