@@ -19,10 +19,14 @@ module Carmin
 		end
 
 		def try_create_inbox_card(params)
-			if is_unique?(params['link'])
-				page = LinkThumbnailer.generate(params['link'])
+			page = LinkThumbnailer.generate(params['link'])
+			if page.title.blank?
+				page.title = params['link']
+			end
+
+			if is_unique?(page.title)				
 				desc = Carmin::DescHelper.create_desc(params)
-				create_card(INBOX_LIST_NAME, page.title.blank? ? params['link'] : page.title, desc)
+				create_card(INBOX_LIST_NAME, page.title, desc)
 				add_checklist()
 				add_attachments(page.images, params['link'])
 				@card_repository.add_card(@card)
