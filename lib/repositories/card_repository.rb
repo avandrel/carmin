@@ -13,14 +13,24 @@ module Carmin
 
 		def add_card(card)
 			attributes = card.attributes
-			attributes[:source_url] = card.attachments.select{ |att| att.bytes == 0 }.first.url
+			attributes[:source_url] = get_url(card)
         	@mongo_helper.cards_collection.insert_one(attributes)
         end
 
         def update_card(card)
         	attributes = card.attributes
-			attributes[:source_url] = card.attachments.select{ |att| att.bytes == 0 }.first.url
-        	@mongo_helper.cards_collection.update_one({:source_url => "#{card.url}"}, attributes)
+			attributes[:source_url] = get_url(card)
+        	@mongo_helper.cards_collection.update_one({:source_url => "#{card.source_url}"}, attributes)
+        end
+
+        private
+
+        def get_url(card)
+        	if card.attachments.count > 1
+        		card.attachments.select{ |att| att.bytes == 0 }.first.url
+        	else
+        		card.attachments.first.url
+        	end
         end
 	end
 end
