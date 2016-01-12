@@ -51,6 +51,8 @@ module Carmin
 			create_label(board, "region", "green")
 			create_label(board, "kraj", "green")
 			create_label(board, "inny okręg", "green")
+			create_label(board, "UE", "green")
+			create_label(board, "zagranica", "green")
 
 			create_label(board, "gr1", "purple")
 

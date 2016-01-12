@@ -22,8 +22,10 @@ module Carmin
 			mongo_helper = Carmin::MongoHelper.new @config_hash
 			card_repository = Carmin::CardRepository.new mongo_helper
 
-			cards_txt_collection = {}
 			closed_cards_per_list.each do |list_name, cards|
+				puts list_name
+				puts cards.map { |card| card.name }.join("\n")
+				cards_txt_collection = {}
 				cards.each do |card|
 					update_desc(card, list_name)
 					set_defaults(card)
@@ -38,10 +40,6 @@ module Carmin
 					card.delete
 				end
 			end
-
-			#@return_message << "OOD: #{cards_out_of_date[0]}/#{cards_out_of_date[1]} "
-
-			#@slack_helper.notify(@return_message)
 			200
 		end
 
