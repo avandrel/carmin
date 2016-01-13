@@ -54,7 +54,8 @@ module Carmin
 				title = page.title
 				images = page.images
 				language = language_iso(WhatLanguage.new(:english, :german, :french, :spanish, :polish).language(title.to_s))
-			rescue
+			rescue => ex
+            	puts ex.message
 				title = params['link']
 			end
 
