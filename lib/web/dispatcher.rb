@@ -47,7 +47,7 @@ module Carmin
 
 			closed_cards_per_list.values.each do |cards| 
 				cards.each do |card|
-					card.card_repository.update_card(card)
+					card_repository.update_card(card)
 					card.delete
 				end
 			end
