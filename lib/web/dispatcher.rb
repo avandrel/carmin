@@ -11,14 +11,14 @@ module Carmin
 		end
 
 		def dispatch(params)
-
+			start_time = Time.now
 			token_helper = Carmin::TokenHelper.new @config_hash
 			if !token_helper.try_set_channel(params)
 				return 401
 			end
 
 			closed_cards_per_list = @card_helper.get_closed_cards_per_list
-
+			puts "Got clodes cards, Elapsed: #{Time.now - start_time}[s]"
 			mongo_helper = Carmin::MongoHelper.new @config_hash
 			card_repository = Carmin::CardRepository.new mongo_helper
 
@@ -30,29 +30,26 @@ module Carmin
 				cards.each do |card|
 					update_desc(card, list_name)
 					set_defaults(card)
-					range = Carmin::EmailHelper.get_label_value(card, "green")
-					(cards_txt_collection[range] ||= []) << Carmin::EmailHelper.create_card_txt(card)
+					range = Carmin::EmailCreator.get_label_value(card, "green")
+					(cards_txt_collection[range] ||= []) << Carmin::EmailCreator.create_card_txt(card)
 				end
 
-				lists_txt_collection[list_name] = Carmin::EmailCreator.create(list_name, cards_txt_collection)
-				#
-
-				#cards.each do |card| 
-				#	card_repository.update_card(card)
+				lists_txt_collection[list_name] = Carmin::EmailCreator.create_list_body(list_name, cards_txt_collection)
+			end
+			puts "List bodies created, Elapsed: #{Time.now - start_time}[s]"
+			body = Carmin::EmailCreator.create_body(lists_txt_collection)
+			
+			Carmin::EmailHelper.send_email(@config_hash, body)
+			puts "Email send, Elapsed: #{Time.now - start_time}[s]"
+			
+			#closed_cards_per_list.values.each do |cards| 
+				#cards.each do |card|
+					#card_repository.update_card(card)
 					#card.delete
 				#end
-			end
+			#end
 
-			Carmin::EmailHelper.send_email(@config_hash, lists_txt_collection)
-
-			closed_cards_per_list.values.each do |cards| 
-				cards.each do |card|
-					card_repository.update_card(card)
-					card.delete
-				end
-			end
-
-			lists_txt_collection
+			[200, body]
 		end
 
 		private

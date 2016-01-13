@@ -15,3 +15,4 @@ gem 'slack-notifier'
 gem 'link_thumbnailer'
 
 gem 'mail'
+gem 'whatlanguage'

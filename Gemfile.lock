@@ -112,6 +112,7 @@ GEM
       multi_json (~> 1.11)
       oga
       open_uri_redirections
+    whatlanguage (1.0.5)
 
 PLATFORMS
   ruby
@@ -127,3 +128,4 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   slack-notifier
+  whatlanguage

@@ -17,6 +17,7 @@ module Carmin
     end
 
     get "/dispatch" do 
+      response['Content-Type']= 'text/plain'
       dispatcher = Carmin::Dispatcher.new @config_hash
       dispatcher.dispatch(params)
     end

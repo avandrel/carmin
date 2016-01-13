@@ -2,10 +2,35 @@
 
 require 'trello'
 require 'link_thumbnailer'
+require 'whatlanguage'
 
 module Carmin
 	class CardCreator
 		INBOX_LIST_NAME = "Inbox"
+
+		ISO_CODES = {
+		    nil => nil,
+		    :arabic => :ar,
+		    :danish => :da,
+		    :dutch  => :nl,
+		    :english => :en,
+		    :farsi => :fa,
+		    :finnish => :fi,
+		    :french => :fr,
+		    :german => :de,
+		    :greek => :el,
+		    :hebrew => :he,
+		    :hungarian => :hu,
+		    :italian => :it,
+		    :korean => :ko,
+		    :norwegian => :no,
+		    :pinyin => :zh,
+		    :polish => :pl,
+		    :portuguese => :pt,
+		    :russian => :ru,
+		    :spanish => :es,
+		    :swedish => :sv
+		  }
 
 		def initialize(config_hash, card_repository)
 			Trello.configure do |config|
@@ -16,6 +41,7 @@ module Carmin
 			@error_message = ''
 			@card = nil
 			@card_repository = card_repository
+			@card_helper = Carmin::CardHelper.new config_hash
 		end
 
 		def try_create_inbox_card(params)
@@ -24,8 +50,10 @@ module Carmin
 
 			begin
 				page = LinkThumbnailer.generate(params['link'])
+				puts page.inspect
 				title = page.title
 				images = page.images
+				language = language_iso(WhatLanguage.new(:english, :german, :french, :spanish, :polish).language(title.to_s))
 			rescue
 				title = params['link']
 			end
@@ -35,6 +63,9 @@ module Carmin
 				create_card(INBOX_LIST_NAME, title, desc)
 				add_checklist()
 				add_attachments(images, params['link'])
+				if !language.blank?
+					add_language_label(language)
+				end
 				@card_repository.add_card(@card)
 				return true
 			else
@@ -60,6 +91,10 @@ module Carmin
 		end
 
 		private
+
+  		def language_iso(text)
+    		ISO_CODES[text]
+  		end
 
 		def is_unique?(url)
 			!@card_repository.card_in_repo?(url)
@@ -94,6 +129,14 @@ module Carmin
 				@card.add_attachment(images.first.to_s)
 			end
 			@card.add_attachment(url)
+		end
+
+		def add_language_label(language)
+			puts language
+			label = @card_helper.board_labels.select{ |label| label.color == "red" && label.name == language.to_s}.first
+			if !label.nil?
+				@card.add_label(label)
+			end
 		end
 	end
 end
