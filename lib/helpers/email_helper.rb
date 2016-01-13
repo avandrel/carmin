@@ -7,31 +7,21 @@ module Carmin
 
 		DELIMITER = "-"
 
-		def self.send_email(config_hash, list_name, card_txt_collection)
+		def self.send_email(config_hash, list_txt_collection)
 			Mail.defaults do
  				delivery_method :smtp, address: config_hash['mail_smtp_server'], port: config_hash['mail_smtp_port'], user_name: config_hash['mail_smtp_user'], password: config_hash['mail_smtp_password'], openssl_verify_mode: "none"
 			end
 
-			recipients = config_hash['emails'][create_recipient_name(list_name)]
-			subject = create_subject(list_name)
+			recipients = config_hash['emails'][create_recipient_name(list_txt_collection.keys.first)]
+			subject = create_subject()
 
 			first_part = %Q(Witaj!
 
 To jest wiadomość z systemu zbierania informacji CARMIN. Została wygenerowana automatycznie, nie odpowiadaj na nią. Miłej lektury!
 
-Lista "#{list_name}"
+#{delimiter}
 
-#{([DELIMITER] * 30).join()}
-)
-			
-			body_part = ''
-			card_txt_collection.each do |range, card_collection|
-				body_part << "\n=#{range.upcase}=\n"
-				card_collection.each { |card| body_part << card }
-			end
-
-			bottom_part = %Q(
-#{([DELIMITER] * 30).join()}
+#{list_txt_collection.values.join("\n")}
 
 To wszystko na dziś. Pozdrawiamy i przypominamy, że tylko RAZEM damy radę!
 
@@ -41,7 +31,7 @@ Więcej informacji: #carmin)
 			  from    'carmin@mgpm.pl'
 			  bcc      recipients
 			  subject subject
-			  body    first_part + body_part + bottom_part
+			  body    first_part
 			end
 
 			mail.deliver
@@ -65,14 +55,18 @@ Więcej informacji: #carmin)
 			card.labels.select{ |label| label.color == color }.first.name
 		end
 
+		def self.delimiter
+			([DELIMITER] * 30).join()
+		end
+
 		private
 
 		def self.get_labels_collection(card, color)
 			card.labels.select{ |label| label.color == color }.map{ |label| "[#{label.name}]" }
 		end
 
-		def self.create_subject(list_name)
-			"Informacje CARMIN: #{list_name} z #{DateTime.now.strftime("%F %H:%M")}"
+		def self.create_subject()
+			"Informacje CARMIN z #{DateTime.now.strftime("%F %H:%M")}"
 		end
 
 		def self.create_message(recipient, group_name, message)

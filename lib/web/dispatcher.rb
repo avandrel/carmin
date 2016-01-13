@@ -22,6 +22,7 @@ module Carmin
 			mongo_helper = Carmin::MongoHelper.new @config_hash
 			card_repository = Carmin::CardRepository.new mongo_helper
 
+			lists_txt_collection = {}
 			closed_cards_per_list.each do |list_name, cards|
 				puts list_name
 				puts cards.map { |card| card.name }.join("\n")
@@ -33,14 +34,25 @@ module Carmin
 					(cards_txt_collection[range] ||= []) << Carmin::EmailHelper.create_card_txt(card)
 				end
 
-				Carmin::EmailHelper.send_email(@config_hash, list_name, cards_txt_collection)
+				lists_txt_collection[list_name] = Carmin::EmailCreator.create(list_name, cards_txt_collection)
+				#
 
-				cards.each do |card| 
-					card_repository.update_card(card)
+				#cards.each do |card| 
+				#	card_repository.update_card(card)
+					#card.delete
+				#end
+			end
+
+			Carmin::EmailHelper.send_email(@config_hash, lists_txt_collection)
+
+			closed_cards_per_list.values.each do |cards| 
+				cards.each do |card|
+					card.card_repository.update_card(card)
 					card.delete
 				end
 			end
-			200
+
+			lists_txt_collection
 		end
 
 		private

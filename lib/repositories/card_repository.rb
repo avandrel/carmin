@@ -20,7 +20,7 @@ module Carmin
         def update_card(card)
         	attributes = card.attributes
 			attributes[:source_url] = get_url(card)
-        	@mongo_helper.cards_collection.update_one({:source_url => "#{card.source_url}"}, attributes)
+        	@mongo_helper.cards_collection.update_one({:source_url => "#{attributes[:source_url]}"}, attributes)
         end
 
         private
