@@ -13,9 +13,8 @@ module Carmin
 		end
 
 		def check(params)
-
 			token_helper = Carmin::TokenHelper.new @config_hash
-			if !token_helper.try_set_channel(params)
+			if !token_helper.validate_token('healthcheck', params['token'])
 				return 401
 			end
 

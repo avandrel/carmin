@@ -2,6 +2,7 @@ module Carmin
 	class CardHelper
 
 		INBOX_LIST_NAME = "INBOX"
+		KOSZ_LIST_NAME = "KOSZ"
 		SEC_IN_HOUR = 3600
 
 		def initialize(config_hash)
@@ -13,6 +14,10 @@ module Carmin
 			@error_message = ''
 		end
 
+		def get_list_names()
+			@wywiad_board.lists.map{ |list| list.name }.select{ |name| name != INBOX_LIST_NAME && name != KOSZ_LIST_NAME}
+		end
+		
 		def get_out_of_date_cards(hours)
 			[out_of_date_cards(hours).count, @wywiad_board.cards.count]
 		end

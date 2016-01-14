@@ -8,6 +8,10 @@ module Carmin
             @connect["cards"]
     	end
 
+        def recipients_collection
+            @connect["recipients"]
+        end
+
         private
 
         def create_connection(mongo_user, mongo_password)

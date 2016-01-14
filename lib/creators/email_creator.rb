@@ -5,14 +5,14 @@ module Carmin
 
 		DELIMITER = "-"
 
-		def self.create_body(list_txt_collection)
+		def self.create_body(list_txt_collection, groups)
 			%Q(Witaj!
 
 To jest wiadomość z systemu zbierania informacji CARMIN. Została wygenerowana automatycznie, nie odpowiadaj na nią. Miłej lektury!
 
 #{delimiter}
 
-#{list_txt_collection.values.join("\n")}
+#{list_txt_collection.select{ |key,value| groups.include?(key)}.values.join("\n")}
 
 #{delimiter}
 
@@ -23,8 +23,7 @@ Więcej informacji: #carmin)
 
 		def self.create_list_body(list_name, card_txt_collection)			
 			%Q(===== #{list_name.upcase} =====
-#{body(card_txt_collection)}
-)
+#{body(card_txt_collection)})
 		end
 
 		def self.create_card_txt(card)

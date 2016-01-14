@@ -1,0 +1,22 @@
+!!! 
+%html   
+  %head     
+    %title= "CARMIN - add recipient"
+    %link{:href => "/css/bootstrap.css", :rel => "stylesheet"}/
+  %body
+    %div{:style => "margin-left:auto;margin-right:auto;margin-top:20px;width: 960px"}
+      %form
+        %div{:class => "form-group"}
+          %label{:for => "name"} Podaj adres email czytelnika:
+          %input{:type => "text", :name => "recipients_email"}
+          - @list_names.each do |name|
+            %br
+            %input{:type=>"checkbox", :name=>"#{name}", :value=>"1", :checked=>"1"}
+            =name
+          %br
+          %input{:type => "text", :name => "comment"}
+          %br
+          %button{:formmethod => "post", :formaction => "/add_recipient", :type => "submit", :class => "btn btn-info"} Wyślij
+  /
+  %script{:src => "/js/jquery.js"}
+  %script{:src => "/js/bootstrap.js"}

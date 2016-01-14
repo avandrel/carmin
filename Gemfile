@@ -16,3 +16,7 @@ gem 'link_thumbnailer'
 
 gem 'mail'
 gem 'whatlanguage'
+
+gem 'haml'
+gem 'bootstrap-sass'
+gem 'simple_form'

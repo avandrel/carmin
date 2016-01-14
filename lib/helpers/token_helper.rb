@@ -28,18 +28,27 @@ module Carmin
 						params['channel'] = "chrome_plugin" 
 						return true
 					end
-				when @config_hash['healthcheck_token'] then 
-					begin
-						return true
-					end
-				when @config_hash['dispatch_token'] then 
-					begin
-						return true
-					end
 			end
 
-			@error_message = 'Nieprawidłowy token!'
+			@error_message = invalid_token
 			return false
+		end
+
+		def validate_token(endpoint, token)
+			case endpoint
+				when 'healthcheck' 
+					return token == @config_hash['healthcheck_token']
+				when 'dispatch'
+					return token == @config_hash['dispatch_token']
+				when 'add'
+					return token == @config_hash['add_recipient_token']
+			end
+
+			return true
+		end
+
+		def invalid_token
+			"Nieprawidłowy token!"
 		end
 	end
 end

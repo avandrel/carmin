@@ -1,14 +1,19 @@
 require 'sinatra/base'
 require 'sinatra/config_file'
-require 'discourse_api'
+require 'haml'
 
 module Carmin
   class Web < Sinatra::Base
     register Sinatra::ConfigFile
 
     before do
-        headers "Content-Type" => "application/json; charset=utf8"
         @config_hash = Carmin::Config.get_config_hash
+    end
+
+    get "/add" do
+      card_helper = Carmin::CardHelper.new @config_hash
+      @list_names = card_helper.get_list_names
+      haml :add_recipient
     end
 
     get "/healthcheck" do
@@ -40,6 +45,10 @@ module Carmin
         end
       end
 =end
+    post "/add_recipient" do
+      recipient_creator = Carmin::RecipientCreator.new @config_hash
+      recipient_creator.create(params)
+    end
 
 
     post "/create" do

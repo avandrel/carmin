@@ -11,14 +11,15 @@ module Carmin
 		end
 
 		def dispatch(params)
+			log = []
 			start_time = Time.now
 			token_helper = Carmin::TokenHelper.new @config_hash
-			if !token_helper.try_set_channel(params)
+			if !token_helper.validate_token('dispatch', params['token'])
 				return 401
 			end
 
 			closed_cards_per_list = @card_helper.get_closed_cards_per_list
-			puts "Got clodes cards, Elapsed: #{Time.now - start_time}[s]"
+			log << "Got #{closed_cards_per_list.values.map{ |cards| cards.count }.sum()} closed cards, Elapsed: #{Time.now - start_time}[s]"
 			mongo_helper = Carmin::MongoHelper.new @config_hash
 			card_repository = Carmin::CardRepository.new mongo_helper
 
@@ -36,11 +37,17 @@ module Carmin
 
 				lists_txt_collection[list_name] = Carmin::EmailCreator.create_list_body(list_name, cards_txt_collection)
 			end
-			puts "List bodies created, Elapsed: #{Time.now - start_time}[s]"
-			body = Carmin::EmailCreator.create_body(lists_txt_collection)
-			
-			Carmin::EmailHelper.send_email(@config_hash, body)
-			puts "Email send, Elapsed: #{Time.now - start_time}[s]"
+			log << "List bodies created, Elapsed: #{Time.now - start_time}[s]"
+
+			recipient_repository = Carmin::RecipientRepository.new mongo_helper
+			recipients = recipient_repository.get_all_recipients
+			log << "Got #{recipients.count} recipients, Elapsed: #{Time.now - start_time}[s]"
+
+			recipients.select{ |recipient| recipient[:groups].count > 0 }.each do |recipient|
+				body = Carmin::EmailCreator.create_body(lists_txt_collection, recipient[:groups])
+				Carmin::EmailHelper.send_email(@config_hash, body, recipient[:email])
+				log << "Email send, Elapsed: #{Time.now - start_time}[s]"
+			end
 			
 			#closed_cards_per_list.values.each do |cards| 
 				#cards.each do |card|
@@ -49,7 +56,7 @@ module Carmin
 				#end
 			#end
 
-			[200, body]
+			[200, log.join("\n")]
 		end
 
 		private
