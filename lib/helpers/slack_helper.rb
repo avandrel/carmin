@@ -11,10 +11,10 @@ module Carmin
 			message_to_response(message, "error")
 		end
 
-		def return_user_ok_message(user_name)
+		def return_user_ok_message(user_name, card)
 			message = user_name.blank? ? "" : "#{user_name}: "
 			message = "#{message}Dziękujemy zagłoszenie!"
-			notify("New Inbox message! => <#{@board_url}|Visit Trello board>")
+			notify("New card => <#{card.url}|#{card.name}>")
 			message_to_response(message, "ok")
 		end
 
