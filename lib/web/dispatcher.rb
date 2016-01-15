@@ -67,7 +67,7 @@ module Carmin
 					card.delete
 				end
 			end
-
+			puts log
 			[200, log.join("\n")]
 		end
 
