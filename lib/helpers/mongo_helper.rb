@@ -12,6 +12,10 @@ module Carmin
             @connect["recipients"]
         end
 
+        def body_collection
+            @connect["body"]
+        end
+        
         private
 
         def create_connection(mongo_user, mongo_password)

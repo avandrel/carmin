@@ -5,13 +5,13 @@ require 'mail'
 module Carmin
 	class EmailHelper
 
-		def self.send_email(config_hash, body, email)
+		def self.send_email(config_hash, body, email, date)
 			Mail.defaults do
  				delivery_method :smtp, address: config_hash['mail_smtp_server'], port: config_hash['mail_smtp_port'], user_name: config_hash['mail_smtp_user'], password: config_hash['mail_smtp_password'], openssl_verify_mode: "none"
 			end
 
 			recipients = email
-			subject = create_subject()
+			subject = create_subject(date)
 
 			mail = Mail.new do
 			  from    'carmin@mgpm.pl'
@@ -25,12 +25,8 @@ module Carmin
 
 		private
 
-		def self.create_subject()
-			"Informacje CARMIN z #{DateTime.now.strftime("%F %H:%M")}"
-		end
-
-		def self.create_message(recipient, group_name, message)
-			"From: CARMIN <carmin@mgpm.pl>\nTo: #{recipient}\nSubject: CARMIN message for list: #{group_name}\n\n#{message}"
+		def self.create_subject(date)
+			"Informacje CARMIN z #{date}"
 		end
 	end
 end

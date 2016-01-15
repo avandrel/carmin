@@ -33,7 +33,7 @@ module Carmin
 		def create_recipient(params)
 			recipient = {}
 			recipient[:email] = params['recipients_email']
-			recipient[:groups] = params.select { |key, value| key != 'recipients_email'}
+			recipient[:groups] = params.select { |key, value| key != 'recipients_email' && key != 'comment'}
 			recipient
 		end
 	end

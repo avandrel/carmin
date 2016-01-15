@@ -43,6 +43,8 @@ module Carmin
 			config_hash['mail_smtp_user'] = ENV['MAIL_U']
 			config_hash['mail_smtp_password'] = ENV['MAIL_PA']
 
+			config_hash['admin_email'] = ENV['ADMIN_E']
+			
 			config_hash['emails'] = {}
 			config_hash['emails']['finanseibudet'] = ENV['finanseibudet']
 			config_hash['emails']['kultura'] = ENV['kultura']

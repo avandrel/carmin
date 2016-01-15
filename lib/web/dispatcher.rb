@@ -8,6 +8,7 @@ module Carmin
 			@slack_helper = Carmin::SlackHelper.new @config_hash['slack_wywiad_incoming_hooks'], @config_hash['trello_board_url']
 			@card_helper = Carmin::CardHelper.new @config_hash
 			@return_message = ''
+			@date = DateTime.now.strftime("%F")
 		end
 
 		def dispatch(params)
@@ -43,18 +44,29 @@ module Carmin
 			recipients = recipient_repository.get_all_recipients
 			log << "Got #{recipients.count} recipients, Elapsed: #{Time.now - start_time}[s]"
 
+			puts recipients.count
 			recipients.select{ |recipient| recipient[:groups].count > 0 }.each do |recipient|
+			#recipients.each do |recipient|
 				body = Carmin::EmailCreator.create_body(lists_txt_collection, recipient[:groups])
-				Carmin::EmailHelper.send_email(@config_hash, body, recipient[:email])
+				if recipient[:email] == @config_hash['admin_email']
+					body_repository = Carmin::BodyRepository.new mongo_helper
+					if body_repository.body_in_repo?(@date)
+						body_repository.update_body({ :date => @date, :body => lists_txt_collection })
+					else
+						body_repository.add_body({ :date => @date, :body => lists_txt_collection })
+					end
+				end
+
+				Carmin::EmailHelper.send_email(@config_hash, body, recipient[:email], @date)
 				log << "Email send, Elapsed: #{Time.now - start_time}[s]"
 			end
 			
-			#closed_cards_per_list.values.each do |cards| 
-				#cards.each do |card|
-					#card_repository.update_card(card)
-					#card.delete
-				#end
-			#end
+			closed_cards_per_list.values.each do |cards| 
+				cards.each do |card|
+					card_repository.update_card(card)
+					card.delete
+				end
+			end
 
 			[200, log.join("\n")]
 		end

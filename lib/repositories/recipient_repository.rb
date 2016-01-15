@@ -21,7 +21,7 @@ module Carmin
 
         def get_all_recipients()
         	retval = []
-        	@mongo_helper.recipients_collection.find().each { |recipient| retval << recipient}
+        	@mongo_helper.recipients_collection.find().each { |recipient| retval << recipient }
         	retval
         end
 	end
