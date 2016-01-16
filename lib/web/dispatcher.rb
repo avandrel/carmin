@@ -13,15 +13,23 @@ module Carmin
 
 		def dispatch(params)
 			log = []
+			log << "# Start"
 			start_time = Time.now
 			token_helper = Carmin::TokenHelper.new @config_hash
 			if !token_helper.validate_token('dispatch', params['token'])
 				return 401
 			end
 
+			mongo_helper = Carmin::MongoHelper.new @config_hash
+			body_repository = Carmin::BodyRepository.new mongo_helper
+			if body_repository.body_in_repo?(@date)
+				log << "Todays newsletter already sent!"
+				return [200, log.join("\n")]
+			end
+
 			closed_cards_per_list = @card_helper.get_closed_cards_per_list
 			log << "Got #{closed_cards_per_list.values.map{ |cards| cards.count }.sum()} closed cards, Elapsed: #{Time.now - start_time}[s]"
-			mongo_helper = Carmin::MongoHelper.new @config_hash
+			
 			card_repository = Carmin::CardRepository.new mongo_helper
 
 			lists_txt_collection = {}
@@ -49,7 +57,6 @@ module Carmin
 			#recipients.each do |recipient|
 				body = Carmin::EmailCreator.create_body(lists_txt_collection, recipient[:groups])
 				if recipient[:email] == @config_hash['admin_email']
-					body_repository = Carmin::BodyRepository.new mongo_helper
 					if body_repository.body_in_repo?(@date)
 						body_repository.update_body({ :date => @date, :body => lists_txt_collection })
 					else
@@ -67,6 +74,9 @@ module Carmin
 					card.delete
 				end
 			end
+			
+			log << "Cards deleted, Elapsed: #{Time.now - start_time}[s]"
+
 			puts log
 			[200, log.join("\n")]
 		end
