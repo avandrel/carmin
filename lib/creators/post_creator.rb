@@ -24,7 +24,6 @@ module Carmin
 
 			if (body_repository.body_in_repo?(params['date']))
 				body = adjust_markdown(body_repository.get_body(params['date'])[:body])
-				puts body
 				@discourse_client.create_post({topic_id: @config_hash['discourse_publish_topic_id'], raw: body.values.join("\n")})
 				#@discourse_client.create_post({topic_id: @config_hash['discourse_publish_topic_id'], raw: body.values[1]})
 				return [200, "OK"]

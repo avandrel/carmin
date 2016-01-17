@@ -26,11 +26,7 @@ module Carmin
         private
 
         def get_url(card)
-        	if card.attachments.count > 1
-        		card.attachments.select{ |att| att.bytes == 0 }.first.url
-        	else
-        		card.attachments.first.url
-        	end
+            card.attachments.select{|att| att.name == "url"}.first.url
         end
 	end
 end

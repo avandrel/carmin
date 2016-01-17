@@ -129,7 +129,7 @@ module Carmin
 			if !images.empty?
 				@card.add_attachment(images.first.to_s)
 			end
-			@card.add_attachment(url)
+			@card.add_attachment(url, "url")
 		end
 
 		def add_language_label(language)
