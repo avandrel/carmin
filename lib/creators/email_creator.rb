@@ -1,5 +1,7 @@
 # encoding UTF-8
 
+require "unicode_utils/upcase"
+
 module Carmin
 	class EmailCreator
 
@@ -22,7 +24,7 @@ Więcej informacji: #carmin)
 		end
 
 		def self.create_list_body(list_name, card_txt_collection)			
-			%Q(===== #{list_name.upcase} =====
+			%Q(===== #{UnicodeUtils.upcase(list_name)} =====
 #{body(card_txt_collection)})
 		end
 

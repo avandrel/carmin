@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/config_file'
 require 'haml'
+require 'discourse_api'
 
 module Carmin
   class Web < Sinatra::Base
@@ -26,25 +27,12 @@ module Carmin
       dispatcher = Carmin::Dispatcher.new @config_hash
       dispatcher.dispatch(params)
     end
-=begin
-      if ENV['RACK_ENV'] != 'production'
-        client = DiscourseApi::Client.new(@config_hash['discourse_url'])
-        client.api_key = @config_hash['discourse_api_key']
-        client.api_username = @config_hash['discourse_api_username']
 
-        messages = client.private_messages(client.api_username)
-        puts messages.to_json
-        messages.each do |message|
-          if !@inbox_list.cards.any? { |card| card.name == message["title"]}
-            card = Trello::Card.create({
-              #:list_id => @inbox_list.id,
-              :name => message["title"]
-            })
-            card.save
-          end
-        end
-      end
-=end
+    get "/post" do
+      post_creator = Carmin::PostCreator.new @config_hash
+      post_creator.create(params)
+    end
+
     post "/add_recipient" do
       recipient_creator = Carmin::RecipientCreator.new @config_hash
       recipient_creator.create(params)
@@ -55,5 +43,6 @@ module Carmin
       slack_trello = Carmin::SlackTrello.new @config_hash
       slack_trello.respond(params)
     end
+
   end
 end

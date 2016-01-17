@@ -42,6 +42,8 @@ module Carmin
 					return token == @config_hash['dispatch_token']
 				when 'add'
 					return token == @config_hash['add_recipient_token']
+				when 'post'
+					return token == @config_hash['discourse_publish_token']
 			end
 
 			return true

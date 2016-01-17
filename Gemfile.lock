@@ -142,6 +142,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
+    unicode_utils (1.4.0)
     video_info (2.5.0)
       addressable
       htmlentities
@@ -168,4 +169,5 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   slack-notifier
+  unicode_utils
   whatlanguage
