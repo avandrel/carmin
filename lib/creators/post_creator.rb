@@ -46,7 +46,8 @@ module Carmin
 
     	def adjust_markdown(body)
     		body.each do |key, value|
-    			value.gsub!(/^# (.*)$/, '**\1**')
+    			value.gsub!(/^# (.*)$/, '*\1*')
+    			value.gsub!(/^\s{2}(.*)(: .*)$/, '*\1*\2')
     			value.gsub!(/^==+ (.*) ==+$/, '##\1')
     			value.gsub!(/^= (.*) =$/, '###\1')
     		end

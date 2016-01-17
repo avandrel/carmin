@@ -27,7 +27,6 @@ module Carmin
 			config_hash['discourse_publish_topic_id'] = ENV['DISCOURSE_PTI']
 			config_hash['discourse_publish_token'] = ENV['DISCOURSE_PT']
 
-
 			config_hash['slack_wywiad_incoming_hooks'] = ENV['SLACK_WIH']
 			config_hash['slack_wywiad_outgoing_token'] = ENV['SLACK_WOT']
 			
