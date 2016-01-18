@@ -30,7 +30,7 @@ Więcej informacji: #carmin)
 
 		def self.create_card_txt(card)
 			name = card.name
-			card_url = card.attachments.select{ |att| att.bytes == 0 }.first.url
+			card_url = card.attachments.select{|att| att.name == "url"}.first == nil ? "" : card.attachments.select{|att| att.name == "url"}.first.url
 			card_url_string = name == card_url ? "" : "\n  #{card_url}"
 			media = get_label_value(card, "orange")
 			language = get_label_value(card, "red")
