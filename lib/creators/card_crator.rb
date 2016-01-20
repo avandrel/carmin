@@ -49,7 +49,7 @@ module Carmin
 			images = []
 
 			begin
-				page = LinkThumbnailer.generate(params['link'])
+				page = LinkThumbnailer.generate(params['link'], user_agent: 'Googlebot-News')
 				puts page.inspect
 				title = page.title
 				images = page.images
