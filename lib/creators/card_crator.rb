@@ -32,6 +32,12 @@ module Carmin
 		    :swedish => :sv
 		  }
 
+		  USER_AGENTS = [
+		  	'Googlebot-News',
+		  	'facebookexternalhit/1.1',
+		  	'Slackbot-LinkExpanding 1.0'
+		  ]
+
 		def initialize(config_hash, card_repository)
 			Trello.configure do |config|
           		config.developer_public_key = config_hash["trello_developer_public_key"]
@@ -49,7 +55,7 @@ module Carmin
 			images = []
 
 			begin
-				page = LinkThumbnailer.generate(params['link'], user_agent: 'Googlebot-News')
+				page = LinkThumbnailer.generate(params['link'], user_agent: USER_AGENTS.sample)
 				puts page.inspect
 				title = page.title
 				images = page.images
