@@ -24,10 +24,10 @@ module Carmin
         end
 
         def get_cards_with_label(color, name)
-            puts "#{color} - #{name}"
+            search_query = { "card_labels.name" => name }
+            search_query["card_labels.color"] = color if !color.blank?
             retval = []
-            @mongo_helper.cards_collection.find({ "card_labels.color" => color, "card_labels.name" => name })
-            .projection({ :name => 1, :source_url => 1, :last_activity_date => 1}).each { |card| retval << card }
+            @mongo_helper.cards_collection.find(search_query).projection({ :name => 1, :source_url => 1, :last_activity_date => 1}).each { |card| retval << card }
             retval.sort_by{|card| card['last_activity_date']}.reverse
         end
 
