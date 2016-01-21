@@ -23,7 +23,7 @@ module Carmin
 
 			if params.include?('response_url')
 				if cards.count > 0
-					@slack_helper.message_to_response(create_message(cards, params['text'], "ok")
+					@slack_helper.message_to_response(create_message(cards, params['text']), "ok")
 				else
 					@slack_helper.message_to_response("*#{params['text']} - nie ma takiego tematu!*", "error")
 				end				
