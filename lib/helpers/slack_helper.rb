@@ -22,8 +22,6 @@ module Carmin
 			@notifier.ping message 
 		end
 		
-		private
-
 		def message_to_response(message, status)
 			{ "response_type" => "ephemeral","text" => message, "status" => status }.to_json
 		end

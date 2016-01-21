@@ -47,7 +47,11 @@ module Carmin
     get "/search" do
       searcher = Carmin::Searcher.new @config_hash
       @cards = searcher.search(params)
-      haml :show_cards
+      if params.include?('response_url')
+        @cards
+      else
+        haml :show_cards 
+      end
     end
   end
 end
