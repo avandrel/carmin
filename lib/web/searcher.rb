@@ -22,9 +22,11 @@ module Carmin
 			cards = card_repository.get_cards_with_label(params['color'], params['text'])			
 
 			if params.include?('response_url')
-				message = create_message(cards, params['text'])
-				puts message
-				@slack_helper.message_to_response(message, "ok")
+				if cards.count > 0
+					@slack_helper.message_to_response(create_message(cards, params['text'], "ok")
+				else
+					@slack_helper.message_to_response("*#{params['text']} - nie ma takiego tematu!*", "error")
+				end				
 			else
 				cards
 			end
@@ -33,7 +35,7 @@ module Carmin
 		private
 		def create_message(cards, label)
 			message = "*#{label}*\n"
-			cards.each do |card|
+			cards.take(20).each do |card|
 				message << "#{card['last_activity_date'].strftime("%F")} <#{card['source_url']}|#{card['name']}>\n"
 			end
 			message
