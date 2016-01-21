@@ -23,7 +23,7 @@ module Carmin
     end
 
     get "/dispatch" do 
-      response['Content-Type']= 'text/plain'
+      response['Content-Type'] = 'text/plain'
       dispatcher = Carmin::Dispatcher.new @config_hash
       dispatcher.dispatch(params)
     end
@@ -44,5 +44,10 @@ module Carmin
       slack_trello.respond(params)
     end
 
+    get "/search" do
+      searcher = Carmin::Searcher.new @config_hash
+      @cards = searcher.search(params)
+      haml :show_cards
+    end
   end
 end

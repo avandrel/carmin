@@ -39,6 +39,7 @@ module Carmin
 			config_hash['healthcheck_token'] = ENV['HEALTHCHECK_T']
 			config_hash['dispatch_token'] = ENV['DISPATCH_T']
 			config_hash['add_recipient_token'] = ENV['ADDR_T']
+			config_hash['search_token'] = ENV['SEARCH_T']
 			
 			config_hash['mail_smtp_server'] = ENV['MAIL_S']
 			config_hash['mail_smtp_port'] = ENV['MAIL_PO']

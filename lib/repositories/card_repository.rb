@@ -23,6 +23,14 @@ module Carmin
         	@mongo_helper.cards_collection.update_one({:source_url => "#{attributes[:source_url]}"}, attributes)
         end
 
+        def get_cards_with_label(color, name)
+            puts "#{color} - #{name}"
+            retval = []
+            @mongo_helper.cards_collection.find({ "card_labels.color" => color, "card_labels.name" => name })
+            .projection({ :name => 1, :source_url => 1, :last_activity_date => 1}).each { |card| retval << card }
+            retval.sort_by{|card| card['last_activity_date']}.reverse
+        end
+
         private
 
         def get_url(card)

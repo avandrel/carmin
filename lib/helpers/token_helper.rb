@@ -44,6 +44,8 @@ module Carmin
 					return token == @config_hash['add_recipient_token']
 				when 'post'
 					return token == @config_hash['discourse_publish_token']
+				when 'search'
+					return token == @config_hash['search_token']
 			end
 
 			return true

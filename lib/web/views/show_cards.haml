@@ -1,0 +1,15 @@
+!!! 
+%html   
+  %head     
+    %title= "CARMIN - cards by label"
+    %link{:href => "/css/bootstrap.css", :rel => "stylesheet"}/
+  %body
+    %div{:style => "margin-left:auto;margin-right:auto;margin-top:20px;width: 960px"}
+      - @cards.each do |card|
+        %br
+        = "#{card['last_activity_date'].strftime("%F")}"
+        %a{:href => "#{card['source_url']}"}
+          = "#{card['name']}"
+  /
+  %script{:src => "/js/jquery.js"}
+  %script{:src => "/js/bootstrap.js"}

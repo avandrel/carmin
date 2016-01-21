@@ -30,7 +30,6 @@ Więcej informacji: #carmin)
 
 		def self.create_card_txt(card)
 			name = card.name
-			puts "#{card.name} - #{card.short_id}"
 			card_url_att = card.attachments.select{|att| att.name == "url"}.first
 			card_url = card_url_att.attributes[:url]
 			card_url_string = name == card_url ? "" : "\n  #{card_url}"
