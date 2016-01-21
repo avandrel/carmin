@@ -48,6 +48,7 @@ module Carmin
       searcher = Carmin::Searcher.new @config_hash
       @cards = searcher.search(params)
       if params.include?('response_url')
+        response['Content-Type'] = 'application/json'
         @cards
       else
         haml :show_cards 
