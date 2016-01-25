@@ -26,7 +26,7 @@ module Carmin
 
 			if LIST_IDIOMS.include?(search_phrase)
 				return search_list_names()
-			elseif TAGS_IDIOMS.include?(search_phrase)
+			elsif TAGS_IDIOMS.include?(search_phrase)
 				return search_tag_names()
 			else
 				return search_cards(search_phrase, params['color'], mongo_helper, params.include?('response_url'))
@@ -63,7 +63,7 @@ module Carmin
 			@slack_helper.message_to_response("*Kategorie CARMIN*\n#{wywiad_board.lists.select{|list| !EXCLIUDE.include?(list.name)}.map{|list| list.name}.join("\n")}", "ok")
 		end
 
-		def search_list_names()
+		def search_tag_names()
 			Trello.configure do |config|
           		config.developer_public_key = @config_hash["trello_developer_public_key"]
           		config.member_token = @config_hash["trello_member_token"]
