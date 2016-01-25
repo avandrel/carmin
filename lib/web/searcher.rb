@@ -2,6 +2,7 @@ module Carmin
 	class Searcher
 
 		LIST_IDIOMS = ['info', 'lista', 'listy', 'grupy', 'kategorie']
+		EXCLIUDE = ['INBOX', 'KOSZ']
 
 		def initialize(config_hash)
 			@config_hash = config_hash
@@ -21,15 +22,23 @@ module Carmin
 			mongo_helper = Carmin::MongoHelper.new @config_hash
 
 			search_phrase = params['text']
-			cards = []
 
 			if LIST_IDIOMS.include?(search_phrase)
-				if search_list_names(search_phrase)
-					cards = search_cards(search_phrase, '', mongo_helper)
-				end
+				return search_list_names()
 			else
-				cards = search_cards(search_phrase, params['color'], mongo_helper)
+				return search_cards(search_phrase, params['color'], mongo_helper)
 			end
+		end
+
+		private
+
+		def search_cards(search_phrase, color, mongo_helper)
+			card_repository = Carmin::CardRepository.new mongo_helper
+
+			cards_with_label = card_repository.get_cards_with_label(color, search_phrase)			
+			cards_in_category = card_repository.get_cards_in_category(search_phrase)			
+
+			cards = cards_with_label | cards_in_category
 
 			if params.include?('response_url')
 				if cards.count > 0
@@ -42,24 +51,13 @@ module Carmin
 			end
 		end
 
-		private
-
-		def search_cards(search_phrase, color, mongo_helper)
-			card_repository = Carmin::CardRepository.new mongo_helper
-
-			cards_with_label = card_repository.get_cards_with_label(color, search_phrase)			
-			cards_in_category = card_repository.get_cards_in_category(search_phrase)			
-
-			cards_with_label | cards_in_category			
-		end
-
-		def search_list_names(search_phrase)
+		def search_list_names()
 			Trello.configure do |config|
           		config.developer_public_key = @config_hash["trello_developer_public_key"]
           		config.member_token = @config_hash["trello_member_token"]
         	end
 			wywiad_board = Trello::Board.find(@config_hash["trello_board_id"])
-			wywiad_board.lists.select{|list| list.name == search_phrase}.count > 0
+			@slack_helper.message_to_response("*Kategorie CARMIN*\n#{wywiad_board.lists.select{|list| !EXCLIUDE.include?(list.name)}.map{|list| list.name}.join("\n")}", "ok")
 		end
 
 		def create_message(cards, label)
