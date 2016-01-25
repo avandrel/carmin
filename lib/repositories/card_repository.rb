@@ -31,6 +31,13 @@ module Carmin
             retval.sort_by{|card| card['last_activity_date']}.reverse
         end
 
+        def get_cards_in_category(name)
+            search_query = { "desc.list_name" => name }
+            retval = []
+            @mongo_helper.cards_collection.find(search_query).projection({ :name => 1, :source_url => 1, :last_activity_date => 1}).each { |card| retval << card }
+            retval.sort_by{|card| card['last_activity_date']}.reverse
+        end
+
         private
 
         def get_url(card)

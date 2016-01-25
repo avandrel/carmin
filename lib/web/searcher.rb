@@ -19,7 +19,10 @@ module Carmin
 			mongo_helper = Carmin::MongoHelper.new @config_hash
 			card_repository = Carmin::CardRepository.new mongo_helper
 
-			cards = card_repository.get_cards_with_label(params['color'], params['text'])			
+			cards_with_label = card_repository.get_cards_with_label(params['color'], params['text'])			
+			cards_in_category = card_repository.get_cards_in_category(params['text'])			
+
+			cards = cards_with_label | cards_in_category
 
 			if params.include?('response_url')
 				if cards.count > 0

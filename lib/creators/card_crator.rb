@@ -133,7 +133,7 @@ module Carmin
 
 		def add_attachments(images, url)
 			if !images.empty?
-				@card.add_attachment(images.first.to_s)
+				#@card.add_attachment(images.first.to_s)
 			end
 			@card.add_attachment(url, "url")
 		end
