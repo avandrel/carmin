@@ -22,7 +22,7 @@ module Carmin
 
 			search_phrase = params['text']
 			cards = []
-			
+
 			if LIST_IDIOMS.include?(search_phrase)
 				if search_list_names(search_phrase)
 					cards = search_cards(search_phrase, '', mongo_helper)
@@ -53,7 +53,7 @@ module Carmin
 			cards_with_label | cards_in_category			
 		end
 
-		def search_list_names(search_phrase, mongo_helper)
+		def search_list_names(search_phrase)
 			Trello.configure do |config|
           		config.developer_public_key = @config_hash["trello_developer_public_key"]
           		config.member_token = @config_hash["trello_member_token"]
