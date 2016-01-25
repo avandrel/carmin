@@ -26,7 +26,7 @@ module Carmin
 
 			if LIST_IDIOMS.include?(search_phrase)
 				return search_list_names()
-			else if TAGS_IDIOMS.include?(search_phrase)
+			elseif TAGS_IDIOMS.include?(search_phrase)
 				return search_tag_names()
 			else
 				return search_cards(search_phrase, params['color'], mongo_helper, params.include?('response_url'))
