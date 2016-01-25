@@ -26,13 +26,13 @@ module Carmin
 			if LIST_IDIOMS.include?(search_phrase)
 				return search_list_names()
 			else
-				return search_cards(search_phrase, params['color'], mongo_helper)
+				return search_cards(search_phrase, params['color'], mongo_helper, params.include?('response_url'))
 			end
 		end
 
 		private
 
-		def search_cards(search_phrase, color, mongo_helper)
+		def search_cards(search_phrase, color, mongo_helper, from_slack)
 			card_repository = Carmin::CardRepository.new mongo_helper
 
 			cards_with_label = card_repository.get_cards_with_label(color, search_phrase)			
@@ -40,7 +40,7 @@ module Carmin
 
 			cards = cards_with_label | cards_in_category
 
-			if params.include?('response_url')
+			if from_slack
 				if cards.count > 0
 					@slack_helper.message_to_response(create_message(cards, search_phrase), "ok")
 				else
