@@ -69,7 +69,7 @@ module Carmin
           		config.member_token = @config_hash["trello_member_token"]
         	end
 			wywiad_board = Trello::Board.find(@config_hash["trello_board_id"])
-			@slack_helper.message_to_response("*Tagi CARMIN*\n#{wywiad_board.labels.map{|label| label.name}.sort}", "ok")
+			@slack_helper.message_to_response("*Tagi CARMIN*\n#{wywiad_board.labels.map{|label| label.name}.sort.join(", ")}", "ok")
 		end
 
 		def create_message(cards, label)
