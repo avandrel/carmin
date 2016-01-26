@@ -85,7 +85,9 @@ module Carmin
 		end
 
 		def prepare_help_response()
-			response = %Q(*Przydatne polecenia:*
+			response = %Q(*Carmin* - aplikacja pozwalająca wszystkim zRazom dzielić się z partią informacjami o ważnych lub wymagających działania wydarzeniach.
+				
+*Przydatne polecenia:*
 /carmin pomoc - właśnie oglądasz
 /carmin lista - lista dostępnych kategorii
 /carmin tagi - lista dostępnych tagów
@@ -97,7 +99,11 @@ Z wyników polecenia '/carmin lista' wybierz interesujące Cię kategorie i poda
 *Jak dodawać linki do systemu:*
 na Slacku: podaj na dowolnym kanale '/wywiad &lt;url&gt;' 
 wtyczka FireFox: https://drive.google.com/file/d/0B9f6nkaUBDLRRi1tNW5wOUdmb00/view?usp=sharing
-wtyczka Chrome: https://chrome.google.com/webstore/detail/carmin/elegbgmmhbhlnhnfdalbdedefhchihjg?hl=pl&amp;gl=PL)
+wtyczka Chrome: https://chrome.google.com/webstore/detail/carmin/elegbgmmhbhlnhnfdalbdedefhchihjg?hl=pl&amp;gl=PL
+
+*Ostatnie zmiany*
+- uporządkowanie kategorii
+- nowe polecenia Slacka)
 			@slack_helper.message_to_response(response, "ok")
 		end
 	end
