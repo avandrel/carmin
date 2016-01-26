@@ -96,8 +96,8 @@ Z wyników polecenia '/carmin lista' wybierz interesujące Cię kategorie i poda
 
 *Jak dodawać linki do systemu:*
 na Slacku: podaj na dowolnym kanale '/wywiad &lt;url&gt;' 
-wtyczka FireFox: &lt;https://drive.google.com/file/d/0B9f6nkaUBDLRRi1tNW5wOUdmb00/view?usp=sharing|wtyczka&gt; + &lt;https://drive.google.com/file/d/0B9f6nkaUBDLRR3hZQTdNNHB4RHM/view?usp=sharing|instrukcja&gt;
-wtyczka Chrome: &lt;https://chrome.google.com/webstore/detail/carmin/elegbgmmhbhlnhnfdalbdedefhchihjg?hl=pl&gl=PL|wtyczka&gt; + &lt;https://drive.google.com/file/d/0B9f6nkaUBDLRWjNTNnk5RkNmdWs/view?usp=sharing|instrukcja&gt;)
+wtyczka FireFox: &lt;https://drive.google.com/file/d/0B9f6nkaUBDLRRi1tNW5wOUdmb00/view?usp=sharing|wtyczka&gt;
+wtyczka Chrome: &lt;https://chrome.google.com/webstore/detail/carmin/elegbgmmhbhlnhnfdalbdedefhchihjg?hl=pl&amp;gl=PL|wtyczka&gt;)
 			@slack_helper.message_to_response(response, "ok")
 		end
 	end
