@@ -92,7 +92,7 @@ module Carmin
 /camin &lt;tag lub kategoria&gt; - wyświetl ostatnie 20 artykułów na zadany temat
 
 *Jak zapisać się do systemu:*
-Z wyników polecenia '/carmin lista' wybierz interesujące Cię kategorie i podaj je wraz ze swoim emailem na Slacku, mailowo lub jako PW na forum jednej z następujących osób: Agata Murawska, Arek Gochnio, Jacek Stefaniak, Michał Choroszy. To wszystko!
+Z wyników polecenia '/carmin lista' wybierz interesujące Cię kategorie i podaj je wraz ze swoim emailem: na Slacku, mailowo lub jako PW na forum jednej z następujących osób: Agata Murawska, Arek Gochnio, Jacek Stefaniak, Michał Choroszy. To wszystko!
 
 *Jak dodawać linki do systemu:*
 na Slacku: podaj na dowolnym kanale '/wywiad &lt;url&gt;' 
