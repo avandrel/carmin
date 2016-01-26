@@ -1,8 +1,10 @@
 module Carmin
 	class Searcher
 
-		LIST_IDIOMS = ['info', 'lista', 'listy', 'grupy', 'kategorie']
+		LIST_IDIOMS = ['lista', 'listy', 'grupy', 'kategorie']
 		TAGS_IDIOMS = ['tagi', 'tags']
+		HELP_IDIOMS = ['info', 'help', 'pomoc']
+
 		EXCLIUDE = ['INBOX', 'KOSZ']
 
 		def initialize(config_hash)
@@ -28,6 +30,8 @@ module Carmin
 				return search_list_names()
 			elsif TAGS_IDIOMS.include?(search_phrase)
 				return search_tag_names()
+			elsif HELP_IDIOMS.include?(search_phrase)
+				return prepare_help_response()
 			else
 				return search_cards(search_phrase, params['color'], mongo_helper, params.include?('response_url'))
 			end
@@ -78,6 +82,23 @@ module Carmin
 				message << "#{card['last_activity_date'].strftime("%F")} <#{card['source_url']}|#{card['name']}>\n"
 			end
 			message
+		end
+
+		def prepare_help_response()
+			response = %Q(*Przydatne polecenia:*
+/carmin pomoc - właśnie oglądasz
+/carmin lista - lista dostępnych kategorii
+/carmin tagi - lista dostępnych tagów
+/camin &lt;tag lub kategoria&gt; - wyświetl ostatnie 20 artykułów na zadany temat
+
+*Jak zapisać się do systemu:*
+Z wyników polecenia '/carmin lista' wybierz interesujące Cię kategorie i podaj je na Slacku, mailowo lub jako PW na forum jednej z następujących osób: Agata Murawska, Arek Gochnio, Jacek Stefaniak, Michał Choroszy. To wszystko!
+
+*Jak dodawać linki do systemu:*
+na Slacku: podaj na dowolnym kanale '/wywiad &lt;url&gt;' 
+wtyczka FireFox: &lt;https://drive.google.com/file/d/0B9f6nkaUBDLRRi1tNW5wOUdmb00/view?usp=sharing|wtyczka&gt; + &lt;https://drive.google.com/file/d/0B9f6nkaUBDLRR3hZQTdNNHB4RHM/view?usp=sharing|instrukcja&gt;
+wtyczka Chrome: &lt;https://chrome.google.com/webstore/detail/carmin/elegbgmmhbhlnhnfdalbdedefhchihjg?hl=pl&gl=PL|wtyczka&gt; + &lt;https://drive.google.com/file/d/0B9f6nkaUBDLRWjNTNnk5RkNmdWs/view?usp=sharing|instrukcja&gt;)
+			@slack_helper.message_to_response(response, "ok")
 		end
 	end
 end
