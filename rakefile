@@ -5,7 +5,6 @@ Dir["./lib/creators/*.rb"].each { |file| require file }
 Dir["./lib/helpers/*.rb"].each { |file| require file }
 Dir["./lib/repositories/*.rb"].each { |file| require file }
 Dir["./lib/rake/*.rb"].each { |file| require file }
-Dir["**/*.rake"].each {|ext| load ext}
 
 namespace :setup do
   desc 'Clear and setup trello dashboard'
