@@ -85,19 +85,25 @@ module Carmin
 		end
 
 		def prepare_help_response()
-			response = %Q(*Przydatne polecenia:*
+			response = %Q(*Carmin* - aplikacja pozwalająca wszystkim zRazom dzielić się z partią informacjami o ważnych lub wymagających działania wydarzeniach.
+				
+*Przydatne polecenia:*
 /carmin pomoc - właśnie oglądasz
 /carmin lista - lista dostępnych kategorii
 /carmin tagi - lista dostępnych tagów
 /camin &lt;tag lub kategoria&gt; - wyświetl ostatnie 20 artykułów na zadany temat
 
 *Jak zapisać się do systemu:*
-Z wyników polecenia '/carmin lista' wybierz interesujące Cię kategorie i podaj je na Slacku, mailowo lub jako PW na forum jednej z następujących osób: Agata Murawska, Arek Gochnio, Jacek Stefaniak, Michał Choroszy. To wszystko!
+Z wyników polecenia '/carmin lista' wybierz interesujące Cię kategorie i podaj je wraz ze swoim emailem: na Slacku, mailowo lub jako PW na forum jednej z następujących osób: Agata Murawska, Arek Gochnio, Jacek Stefaniak, Michał Choroszy. To wszystko!
 
 *Jak dodawać linki do systemu:*
 na Slacku: podaj na dowolnym kanale '/wywiad &lt;url&gt;' 
-wtyczka FireFox: &lt;https://drive.google.com/file/d/0B9f6nkaUBDLRRi1tNW5wOUdmb00/view?usp=sharing|wtyczka&gt; + &lt;https://drive.google.com/file/d/0B9f6nkaUBDLRR3hZQTdNNHB4RHM/view?usp=sharing|instrukcja&gt;
-wtyczka Chrome: &lt;https://chrome.google.com/webstore/detail/carmin/elegbgmmhbhlnhnfdalbdedefhchihjg?hl=pl&gl=PL|wtyczka&gt; + &lt;https://drive.google.com/file/d/0B9f6nkaUBDLRWjNTNnk5RkNmdWs/view?usp=sharing|instrukcja&gt;)
+wtyczka FireFox: https://drive.google.com/file/d/0B9f6nkaUBDLRRi1tNW5wOUdmb00/view?usp=sharing
+wtyczka Chrome: https://chrome.google.com/webstore/detail/carmin/elegbgmmhbhlnhnfdalbdedefhchihjg?hl=pl&amp;gl=PL
+
+*Ostatnie zmiany*
+- uporządkowanie kategorii
+- nowe polecenia Slacka)
 			@slack_helper.message_to_response(response, "ok")
 		end
 	end
