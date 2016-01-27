@@ -22,11 +22,11 @@ module Carmin
 			card_repository = Carmin::CardRepository.new mongo_helper
 			
 			cards_out_of_date = @card_helper.get_out_of_date_cards(OOD_HOURS)
-			@return_message << "OOD: #{cards_out_of_date[0]}/#{cards_out_of_date[1]} "
+			@return_message << "Zgłoszenia przeterminowane: *#{cards_out_of_date[0]}/#{cards_out_of_date[1]}*\n"
 			lists_with_too_much_cards = @card_helper.get_list_names_with_too_much_cards(TMC_COUNT)
-			@return_message << "TMC_COUNT: #{lists_with_too_much_cards[0]}/#{lists_with_too_much_cards[1]} "
+			@return_message << "Listy z większą niż [#{TMC_COUNT}] liczbą zgłoszeń: *#{lists_with_too_much_cards[0]}/#{lists_with_too_much_cards[1]}*\n"
 			cards_in_trash = @card_helper.get_cards_from_trash(KOSZ_LIST_NAME)
-			@return_message << "DEL_COUNT: #{cards_in_trash.count} "
+			@return_message << "Liczba zgłoszeń usuniętych z kosza: *#{cards_in_trash.count}*"
 
 			cards_in_trash.each do |card|
 				card_repository.update_card(card)
