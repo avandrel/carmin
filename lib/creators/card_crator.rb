@@ -34,8 +34,7 @@ module Carmin
 
 		  USER_AGENTS = [
 		  	'Googlebot-News',
-		  	'facebookexternalhit/1.1',
-		  	'Slackbot-LinkExpanding 1.0'
+		  	'facebookexternalhit/1.1'
 		  ]
 
 		def initialize(config_hash, card_repository)
