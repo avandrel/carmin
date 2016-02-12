@@ -14,7 +14,7 @@ module Carmin
 		def return_user_ok_message(user_name, card)
 			message = user_name.blank? ? "" : "#{user_name}: "
 			message = "#{message}Dziękujemy zagłoszenie!"
-			notify("New card => <#{card.url}|#{card.name}>")
+			notify("New card => <#{get_card_url(card)}|#{card.name}>")
 			message_to_response(message, "ok")
 		end
 
@@ -24,6 +24,11 @@ module Carmin
 		
 		def message_to_response(message, status)
 			{ "response_type" => "ephemeral","text" => message, "status" => status }.to_json
+		end
+
+		def get_card_url(card)
+			card_url_att = card.attachments.select{|att| att.name == "url"}.first
+			card_url_att.attributes[:url]
 		end
 	end
 end
