@@ -33,7 +33,6 @@ module Carmin
 		  }
 
 		  USER_AGENTS = [
-		  	'Googlebot-News',
 		  	'facebookexternalhit/1.1'
 		  ]
 
