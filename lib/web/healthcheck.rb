@@ -23,15 +23,17 @@ module Carmin
 			
 			cards_out_of_date = @card_helper.get_out_of_date_cards(OOD_HOURS)
 			@return_message << "Zgłoszenia przeterminowane: *#{cards_out_of_date[0]}/#{cards_out_of_date[1]}*\n"
-			lists_with_too_much_cards = @card_helper.get_list_names_with_too_much_cards(TMC_COUNT)
-			@return_message << "Listy z większą niż [#{TMC_COUNT}] liczbą zgłoszeń: *#{lists_with_too_much_cards[0]}/#{lists_with_too_much_cards[1]}*\n"
 			cards_in_trash = @card_helper.get_cards_from_trash(KOSZ_LIST_NAME)
-			@return_message << "Liczba zgłoszeń usuniętych z kosza: *#{cards_in_trash.count}*"
+			trash_message = "Liczba zgłoszeń usuniętych z kosza: *#{cards_in_trash.count}*"
 
 			cards_in_trash.each do |card|
 				card_repository.update_card(card)
 				card.delete
 			end
+
+			cards_not_done = @card_helper.get_not_done_cards
+			@return_message << "Zgłoszenia niezakończone: *#{cards_not_done[0]}/#{cards_not_done[1]}*\n"
+			@return_message << trash_message
 
 			@slack_helper.notify(@return_message)
 			200

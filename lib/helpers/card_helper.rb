@@ -37,6 +37,11 @@ module Carmin
 			closed_cards_per_group
 		end
 
+		def get_not_done_cards
+			not_done_cards = {}
+			[@wywiad_board.cards.count { |card| card.badges["checkItems"] == card.badges["checkItemsChecked"] }, @wywiad_board.cards.count]
+		end
+
 		def get_cards_from_trash(trash_group_name)
 			@wywiad_board.lists.select { |list| list.name == trash_group_name }.first.cards
 		end
