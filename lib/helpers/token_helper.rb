@@ -28,6 +28,11 @@ module Carmin
 						params['channel'] = "chrome_plugin" 
 						return true
 					end
+				when @config_hash['safati_plugin_token'] then 
+					begin
+						params['channel'] = "safari_plugin" 
+						return true
+					end
 			end
 
 			@error_message = invalid_token
