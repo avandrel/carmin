@@ -11,7 +11,8 @@ module Carmin
 
 		def try_set_channel(params)
 			token = params['token']
-
+			puts token
+			
 			case token
 				when @config_hash['slack_wywiad_outgoing_token'] then 
 					begin
