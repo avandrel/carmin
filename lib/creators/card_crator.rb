@@ -50,6 +50,7 @@ module Carmin
 
 		def try_create_inbox_card(params)
 			title = ''
+			description = ''
 			images = []
 
 			begin
@@ -57,6 +58,7 @@ module Carmin
 				puts page.inspect
 				title = page.title
 				images = page.images
+				description = page.description
 				language = language_iso(WhatLanguage.new(:english, :german, :french, :spanish, :polish).language(title.to_s))
 			rescue => ex
             	puts ex.message
@@ -64,7 +66,7 @@ module Carmin
 			end
 
 			if is_unique?(params['link'])				
-				desc = Carmin::DescHelper.create_desc(params)
+				desc = Carmin::DescHelper.create_desc(params, description)
 				create_card(INBOX_LIST_NAME, title, desc)
 				add_checklist()
 				add_attachments(images, params['link'])
