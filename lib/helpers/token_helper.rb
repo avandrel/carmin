@@ -11,8 +11,7 @@ module Carmin
 
 		def try_set_channel(params)
 			token = params['token']
-			puts token
-			
+
 			case token
 				when @config_hash['slack_wywiad_outgoing_token'] then 
 					begin
@@ -29,7 +28,7 @@ module Carmin
 						params['channel'] = "chrome_plugin" 
 						return true
 					end
-				when @config_hash['safati_plugin_token'] then 
+				when @config_hash['safari_plugin_token'] then 
 					begin
 						params['channel'] = "safari_plugin" 
 						return true
