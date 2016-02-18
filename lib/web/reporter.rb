@@ -36,7 +36,7 @@ module Carmin
 			retval = "id|last_activity_date|source|channel|language|medium|scope|tags|trash\n"
 			cards.each do |card|
 				retval << "#{card['short_id']}|"
-				retval << "#{card['last_activity_date']}|"
+				retval << "#{get_created_date(card)}|"
 				retval << "#{card['desc']['source']}|"
 				retval << "#{card['desc']['channel']}|"
 				retval << "#{get_label_name(card['card_labels'], "red")}|"
@@ -56,5 +56,14 @@ module Carmin
 				"empty"
 			end
 		end
+
+		def get_created_date(card)
+			if card['desc']['created'].nil?
+				card['last_activity_date']
+			else
+				card['desc']['created']
+			end
+		end
+
 	end
 end

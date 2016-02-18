@@ -5,6 +5,7 @@ module Carmin
 			desc[:source] = params['source']
 			desc[:channel] = params['channel']
 			desc[:description] = description unless description.blank?
+			desc[:created] = DateTime.now
 			desc.to_json
 		end
 
