@@ -6,6 +6,7 @@ module Carmin
 			desc[:channel] = params['channel']
 			desc[:description] = description unless description.blank?
 			desc[:created] = DateTime.now
+			desc[:list_name] = "INBOX"
 			desc.to_json
 		end
 
