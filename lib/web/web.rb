@@ -54,5 +54,10 @@ module Carmin
         haml :show_cards 
       end
     end
+
+    get "/report" do
+      reporter = Carmin::Reporter.new @config_hash
+      reporter.report(params)
+    end
   end
 end

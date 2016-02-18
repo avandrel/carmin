@@ -51,6 +51,8 @@ module Carmin
 					return token == @config_hash['discourse_publish_token']
 				when 'search'
 					return token == @config_hash['search_token']
+				when 'report'
+					return token == @config_hash['report_token']
 			end
 
 			return true

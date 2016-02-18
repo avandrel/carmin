@@ -38,6 +38,12 @@ module Carmin
             retval.sort_by{|card| card['last_activity_date']}.reverse
         end
 
+        def get_cards_from_period(date_from, date_to)
+            search_query = { "last_activity_date" => { :$gte => date_from, :$lte => date_to } }
+            retval = @mongo_helper.cards_collection.find(search_query)
+            retval.sort_by{|card| card['short_id']}
+        end
+
         private
 
         def get_url(card)
