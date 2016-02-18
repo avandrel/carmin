@@ -17,6 +17,18 @@ module Carmin
         	@mongo_helper.cards_collection.insert_one(attributes)
         end
 
+        def add(card)
+            @mongo_helper.cards_collection.insert_one(card)
+        end
+
+        def update(card)
+            @mongo_helper.cards_collection.update_one({:short_id => "#{card['short_id']}"}, card, :upsert => true)
+        end
+
+        def remove(short_id)
+            @mongo_helper.cards_collection.delete_one({:short_id => "#{short_id}"})
+        end
+
         def update_card(card)
         	attributes = card.attributes
 			attributes[:source_url] = get_url(card)
@@ -29,6 +41,12 @@ module Carmin
             retval = []
             @mongo_helper.cards_collection.find(search_query).projection({ :name => 1, :source_url => 1, :last_activity_date => 1}).each { |card| retval << card }
             retval.sort_by{|card| card['last_activity_date']}.reverse
+        end
+
+        def get_cards_descriptions
+            retval = []
+            @mongo_helper.cards_collection.find().each { |card| retval << card }
+            retval
         end
 
         def get_cards_in_category(name)

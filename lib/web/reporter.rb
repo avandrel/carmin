@@ -33,7 +33,7 @@ module Carmin
 		end
 
 		def create_csv(cards)
-			retval = "id|last_activity_date|source|channel|language|medium|scope|tags|trash\n"
+			retval = "id|last_activity_date|source|channel|language|medium|scope|tags|category\n"
 			cards.each do |card|
 				retval << "#{card['short_id']}|"
 				retval << "#{get_created_date(card)}|"
@@ -43,7 +43,7 @@ module Carmin
 				retval << "#{get_label_name(card['card_labels'], "orange")}|"
 				retval << "#{get_label_name(card['card_labels'], "green")}|"
 				retval << "#{card['card_labels'].select{|label| label['color'] == "purple"}.map{ |label| label['name']}.join(",")}|"
-				retval << "#{card['desc']['list_name'] == nil}|"
+				retval << "#{card['desc']['list_name']}|"
 				retval << "\n"
 			end
 			retval

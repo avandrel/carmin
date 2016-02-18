@@ -24,3 +24,10 @@ namespace :run do
   	Carmin::Run.new
   end
 end
+
+namespace :migrate do
+  desc 'Migrate'
+  task :run do
+    Carmin::Migrate.new
+  end
+end
