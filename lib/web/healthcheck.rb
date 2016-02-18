@@ -27,6 +27,9 @@ module Carmin
 			trash_message = "Liczba zgłoszeń usuniętych z kosza: *#{cards_in_trash.count}*"
 
 			cards_in_trash.each do |card|
+				desc = JSON.parse(card.desc)
+				desc['list_name'] = card.list.name
+				card.desc = desc
 				card_repository.update_card(card)
 				card.delete
 			end
