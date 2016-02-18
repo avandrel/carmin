@@ -56,6 +56,7 @@ module Carmin
     end
 
     get "/report" do
+      response['Content-Type'] = 'application/csv'
       reporter = Carmin::Reporter.new @config_hash
       reporter.report(params)
     end
