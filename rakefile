@@ -26,8 +26,14 @@ namespace :run do
 end
 
 namespace :migrate do
-  desc 'Migrate'
-  task :run do
-    Carmin::Migrate.new
+  desc 'Add missing red and orange labels'
+  task :labels do
+    Carmin::Migrate.new.migrate_labels
   end
+
+  desc 'convert ISODates to ruby dates'
+  task :dates do
+    Carmin::Migrate.new.migrate_dates
+  end
+
 end

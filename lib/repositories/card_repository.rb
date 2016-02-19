@@ -22,7 +22,7 @@ module Carmin
         end
 
         def update(card)
-            @mongo_helper.cards_collection.update_one({:short_id => "#{card['short_id']}"}, card, :upsert => true)
+            @mongo_helper.cards_collection.find({:id => "#{card['id']}"}).update_one(card)
         end
 
         def remove(short_id)

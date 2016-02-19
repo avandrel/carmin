@@ -34,7 +34,7 @@ module Carmin
 
 		def create_csv(cards)
 			retval = "id|last_activity_date|source|channel|language|medium|scope|tags|category\n"
-			cards.each do |card|
+			cards.select{|card| card['desc'].is_a?(Hash)}.each do |card|
 				retval << "#{card['short_id']}|"
 				retval << "#{get_created_date(card)}|"
 				retval << "#{card['desc']['source']}|"
@@ -59,9 +59,9 @@ module Carmin
 
 		def get_created_date(card)
 			if card['desc']['created'].nil?
-				card['last_activity_date']
+				card['last_activity_date'].to_time
 			else
-				card['desc']['created']
+				Time.parse(card['desc']['created'])
 			end
 		end
 
