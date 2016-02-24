@@ -36,4 +36,8 @@ namespace :migrate do
     Carmin::Migrate.new.migrate_dates
   end
 
+  desc 'migrate cards to elasticsearch'
+  task :elastic do
+    Carmin::Migrate.new.migrate_to_elasticsearch
+  end
 end

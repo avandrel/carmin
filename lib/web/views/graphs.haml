@@ -1,0 +1,13 @@
+!!! 
+%html   
+  %head     
+    %title= "CARMIN - GRAPHS"
+    %link{:href => "/css/bootstrap.css", :rel => "stylesheet"}/
+  %body
+    %div{:style => "margin-left:auto;margin-right:auto;margin-top:20px;width: 1024px"}
+      %iframe{:src => "https://carmin-kibana.herokuapp.com/app/kibana#/dashboard/data-per-scope?embed&_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-30d,mode:quick,to:now))&_a=(filters:!(),options:(darkTheme:!t),panels:!((col:1,id:Tags-per-scope,row:1,size_x:6,size_y:6,type:visualization),(col:7,id:Categories-per-scope,row:1,size_x:6,size_y:6,type:visualization)),query:(query_string:(analyze_wildcard:!t,query:'*')),title:'data%20per%20scope')", :height => "600", :width => "1024"}
+      %iframe{:src => "https://carmin-kibana.herokuapp.com/app/kibana#/dashboard/Categories-slash-Scopes-slash-Souces-slash-Tags?embed&_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-30d,mode:quick,to:now))&_a=(filters:!(),options:(darkTheme:!t),panels:!((col:1,id:Categories,row:1,size_x:6,size_y:5,type:visualization),(col:7,id:Scopes,row:1,size_x:6,size_y:5,type:visualization),(col:1,id:Sources,row:6,size_x:6,size_y:5,type:visualization),(col:7,id:Tags,row:6,size_x:6,size_y:5,type:visualization)),query:(query_string:(analyze_wildcard:!t,query:'*')),title:Categories%2FScopes%2FSouces%2FTags)", :height => "1200", :width => "1024"}
+      %iframe{:src => "https://carmin-kibana.herokuapp.com/app/kibana#/dashboard/Tags-by-Sources-slash-Sources-by-Tags?embed&_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-30d,mode:quick,to:now))&_a=(filters:!(),options:(darkTheme:!t),panels:!((col:1,id:Source-by-tags,row:1,size_x:12,size_y:10,type:visualization),(col:1,id:Tags-by-source,row:11,size_x:12,size_y:6,type:visualization)),query:(query_string:(analyze_wildcard:!t,query:'*')),title:'Tags%20by%20Sources%2FSources%20by%20Tags')", :height => "1600", :width => "1024"}
+  /
+  %script{:src => "/js/jquery.js"}
+  %script{:src => "/js/bootstrap.js"}

@@ -40,6 +40,7 @@ module Carmin
 				cards.each do |card|
 					update_desc(card, list_name)
 					set_defaults(card)
+					card_repository.update_card(card)
 					range = Carmin::EmailCreator.get_label_value(card, "green")
 					(cards_txt_collection[range] ||= []) << Carmin::EmailCreator.create_card_txt(card)
 				end
@@ -47,6 +48,8 @@ module Carmin
 				lists_txt_collection[list_name] = Carmin::EmailCreator.create_list_body(list_name, cards_txt_collection)
 			end
 			log << "List bodies created, Elapsed: #{Time.now - start_time}[s]"
+
+			return
 
 			recipient_repository = Carmin::RecipientRepository.new mongo_helper
 			recipients = recipient_repository.get_all_recipients
@@ -70,7 +73,6 @@ module Carmin
 			
 			closed_cards_per_list.values.each do |cards| 
 				cards.each do |card|
-					card_repository.update_card(card)
 					card.delete
 				end
 			end

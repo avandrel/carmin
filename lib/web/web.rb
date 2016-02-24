@@ -17,6 +17,10 @@ module Carmin
       haml :add_recipient
     end
 
+    get "/graphs" do
+      haml :graphs
+    end
+
     get "/healthcheck" do
       healthcheck = Carmin::HealthCheck.new @config_hash
       healthcheck.check(params)

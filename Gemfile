@@ -24,3 +24,5 @@ gem 'simple_form'
 gem 'unicode_utils'
 
 gem 'newrelic_rpm'
+
+gem 'elasticsearch'
