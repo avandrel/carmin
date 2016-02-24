@@ -8,7 +8,6 @@ module Carmin
 			@slack_helper = Carmin::SlackHelper.new @config_hash['slack_wywiad_incoming_hooks'], @config_hash['trello_board_url']
 			@card_helper = Carmin::CardHelper.new @config_hash
 			@return_message = ''
-			@date = DateTime.now.strftime("%F")
 		end
 
 		def dispatch(params)
@@ -20,6 +19,13 @@ module Carmin
 				return 401
 			end
 
+			puts params['date']
+			if params['date'].nil?
+				@date = DateTime.now.strftime("%F")
+			else
+				@date = params['date']
+			end
+			puts @date
 			mongo_helper = Carmin::MongoHelper.new @config_hash
 			body_repository = Carmin::BodyRepository.new mongo_helper
 			if body_repository.body_in_repo?(@date)
@@ -49,7 +55,7 @@ module Carmin
 			end
 			log << "List bodies created, Elapsed: #{Time.now - start_time}[s]"
 
-			return
+			#return
 
 			recipient_repository = Carmin::RecipientRepository.new mongo_helper
 			recipients = recipient_repository.get_all_recipients
