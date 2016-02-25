@@ -39,7 +39,7 @@ module Carmin
 
 		def get_not_done_cards
 			not_done_cards = {}
-			[@wywiad_board.cards.count { |card| card.badges["checkItems"] == card.badges["checkItemsChecked"] }, @wywiad_board.cards.count]
+			[@wywiad_board.cards.select{ | card| has_label?("green", card.labels) }.count { |card| card.badges["checkItems"] == card.badges["checkItemsChecked"] }, @wywiad_board.cards.count]
 		end
 
 		def get_cards_from_trash(trash_group_name)

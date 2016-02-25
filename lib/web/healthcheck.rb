@@ -19,6 +19,11 @@ module Carmin
 			end
 
 			mongo_helper = Carmin::MongoHelper.new @config_hash
+			body_repository = Carmin::BodyRepository.new mongo_helper
+			body = body_repository.get_newest_body()
+			hours = ((Time.now - body['_id'].generation_time) / 3600).round
+			@return_message << "Od odstatniej wysyłki minęło około *#{hours}h*\n"
+			
 			card_repository = Carmin::CardRepository.new mongo_helper
 			
 			cards_out_of_date = @card_helper.get_out_of_date_cards(OOD_HOURS)

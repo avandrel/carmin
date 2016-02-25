@@ -15,6 +15,10 @@ module Carmin
         	@mongo_helper.body_collection.find({:date => "#{date}"}).first()
         end
         
+        def get_newest_body()
+            @mongo_helper.body_collection.find().sort(:_id => -1).first()
+        end
+
 		def add_body(body)
         	@mongo_helper.body_collection.insert_one(body)
         end

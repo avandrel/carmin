@@ -42,7 +42,7 @@ module Carmin
 		def migrate_to_elasticsearch
 			client = Elasticsearch::Client.new log: true, url: "http://paas:cc56376c6588953526684531f6898531@bifur-eu-west-1.searchly.com"
 			client.search index: 'carmin_cards', body: { query: { match: { short_id: '183' } } }
-			cards = @card_repository.get_cards_from_period(DateTime.new(2016,01,01), DateTime.new(2016,12,31))
+			cards = @card_repository.get_cards_from_period(DateTime.new(2016,02,20), DateTime.new(2016,12,31))
 
 			cards.each do |card|
 				body = create_body(card)
