@@ -40,7 +40,7 @@ module Carmin
 			end
 
 			cards_not_done = @card_helper.get_not_done_cards
-			@return_message << "Zgłoszenia niezakończone: *#{cards_not_done[0]}/#{cards_not_done[1]}*\n"
+			@return_message << "Zgłoszenia zakończone: *#{cards_not_done[0]}/#{cards_not_done[1]}*\n"
 			@return_message << trash_message
 
 			@slack_helper.notify(@return_message)
