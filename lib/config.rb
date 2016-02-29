@@ -33,6 +33,7 @@ module Carmin
 			config_hash['ff_plugin_token'] = ENV['FF_PT']
 			config_hash['chrome_plugin_token'] = ENV['CHROME_PT']
 			config_hash['safari_plugin_token'] = ENV['SAFARI_PT']
+			config_hash['bookmarklet_token'] = ENV['BM_T']
 			
 			config_hash['mongo_user'] = ENV['MONGO_U']
 			config_hash['mongo_password'] = ENV['MONGO_P']

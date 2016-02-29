@@ -33,6 +33,11 @@ module Carmin
 						params['channel'] = "safari_plugin" 
 						return true
 					end
+				when @config_hash['bookmarklet_token'] then
+					begin
+						params['channel'] = "bookmarklet" 
+						return true
+					end
 			end
 
 			@error_message = invalid_token
