@@ -45,6 +45,7 @@ module Carmin
 
     post "/create" do
       response['Access-Control-Allow-Origin'] = '*'
+      puts params
       slack_trello = Carmin::SlackTrello.new @config_hash
       slack_trello.respond(params)
     end
