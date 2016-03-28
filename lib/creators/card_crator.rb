@@ -59,7 +59,7 @@ module Carmin
 				title = page.title
 				images = page.images
 				description = page.description
-				language = language_iso(WhatLanguage.new(:english, :german, :french, :spanish, :polish).language(title.to_s))
+				language = get_language(title.to_s, description.to_s)
 			rescue => ex
             	puts ex.message
 				title = params['link']
@@ -98,6 +98,14 @@ module Carmin
 		end
 
 		private
+
+		def get_language(title, description)
+			if !description.blank?
+				language_iso(WhatLanguage.new(:english, :german, :french, :spanish, :polish).language(description))
+			else
+				language_iso(WhatLanguage.new(:english, :german, :french, :spanish, :polish).language(title))
+			end
+		end
 
   		def language_iso(text)
     		ISO_CODES[text]

@@ -40,19 +40,43 @@ module Carmin
 		end
 
 		def migrate_to_elasticsearch
-			client = Elasticsearch::Client.new log: true, url: "http://paas:cc56376c6588953526684531f6898531@bifur-eu-west-1.searchly.com"
-			client.search index: 'carmin_cards', body: { query: { match: { short_id: '183' } } }
-			cards = @card_repository.get_cards_from_period(DateTime.now - 3, DateTime.now + 1)
+			client = Elasticsearch::Client.new log: false, url: "http://paas:cc56376c6588953526684531f6898531@bifur-eu-west-1.searchly.com"
+			#client.search index: 'carmin_cards', body: { query: { match: { short_id: '183' } } }
+			cards = @card_repository.get_cards_from_period(DateTime.now - 5, DateTime.now + 1)
 
 			cards.each do |card|
 				body = create_body(card)
 				if !body.nil?
 					client.index index: 'carmin_cards', type: 'card', id: card['short_id'], body: body
 				end
+				insert_tags(client, card)
 			end
 		end
 
 		private
+
+		def insert_tags(client, card)
+			count = 0
+			card['card_labels'].each do |label|
+				body = create_label_body(card, label, count)
+				client.index index: 'carmin_cards', type: 'tag', id: body[:id], body: body
+				count += 1
+			end
+		end
+
+		def create_label_body(card, label, count)
+			retval = {}
+			retval[:name] = label['name']
+			retval[:color] = label['color']
+			retval[:parent_card] = card['short_id']
+			retval[:id] = (retval[:parent_card] + count * 100000)
+			begin
+				retval[:created_date] = get_created_date(card).iso8601
+			rescue
+				return nil
+			end
+			retval
+		end
 
 		def create_body(card)
 			retval = {}
